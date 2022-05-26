@@ -1,10 +1,12 @@
 class Player:
-    def __init__(self, name, xy, hit_points=50):
+    def __init__(self, name, xy, face, hit_points=50):
         self.name = name
         self.x, self.y = xy
         self.hp = hit_points
         self.max_hp = hit_points
-
+        self.face = face
+        self.alive = True
+ 
     def loc(self):
         return self.x, self.y
 
@@ -16,3 +18,7 @@ class Player:
 
     def __repr__(self):
         return f"Player('{self.name}', '{self.loc}', '{self.hp}')"
+        
+    def kill(self):
+        self.hp=0
+        self.alive = False

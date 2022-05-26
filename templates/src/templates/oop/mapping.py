@@ -1,11 +1,11 @@
 import random
-from typing import Optional
+from typing import Optional, Tuple, List
 
 import player
 import items
 
 
-Location = tuple[int, int]
+Location = Tuple[int, int]
 
 
 class Tile:
@@ -126,7 +126,7 @@ class Level:
     def is_walkable(self, location: Location):
         """Check if a player can walk through a given location."""
         j, i = location
-        return self.tiles[i % self.rows][j % self.columns].walkable
+        return self.tiles[i % self.rows][j % self.columns].is_walkable()
 
     def index(self, tile: Tile) -> Location:
         """Get the location of a given tile in the map. If there are multiple tiles of that type, then only one is
@@ -151,7 +151,7 @@ class Level:
         j, i = xy
         return self.tiles[i][j]
 
-    def get_items(self, xy: Location) -> list[items.Item]:
+    def get_items(self, xy: Location) -> List[items.Item]:
         """Get a list of all items at a given location. Removes the items from that location."""
         j, i = xy
         if (i, j) in self.items:
@@ -227,9 +227,9 @@ class Dungeon:
         """
         return self.dungeon[self.level].find_free_tile()
 
-    def is_walkable(self, tile: Tile):
+    def is_walkable(self, location: Location)->bool:
         """Check if a player can walk through a given location. See Level.is_walkable()."""
-        return self.dungeon[self.level].is_walkable(tile)
+        return self.dungeon[self.level].is_walkable(location)
 
     def add_item(self, item: items.Item, level: Optional[int] = None, xy: Optional[Location] = None):
         """Add an item to a given location in the map of a given or current level. If no location is given, one free

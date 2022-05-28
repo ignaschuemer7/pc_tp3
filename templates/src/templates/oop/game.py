@@ -5,10 +5,11 @@ import magic
 
 import random
 from human import Human
-from gnomo import gnomo
+from gnomo import Gnomo
 from items import Item
 from actions import *
 import msvcrt
+
 
 ROWS = 25
 COLUMNS = 80
@@ -28,7 +29,7 @@ if __name__ == "__main__":
     level = 0
     player = Human('player',(12,12),'@')
     # initial locations may be random generated
-    gnome = gnomo('gnome',(0,0),'G',50)
+    gnomo = Gnomo('gnomo',(13,16),'G',50)
 
     dungeon = mapping.Dungeon(ROWS, COLUMNS, 3)
     # Agregarle cosas al dungeon, cosas que no se creen automáticamente al crearlo (por ejemplo, ya se crearon las escaleras).
@@ -37,12 +38,13 @@ if __name__ == "__main__":
     while dungeon.level >= 0:
         turns += 1
         # render map
-        dungeon.render(player)
+        dungeon.render(player,gnomo)
 
         # read key
 
-        #key = magic.read_single_keypress()
-        key = msvcrt.getch().decode('UTF-8')
+        
+        #key = msvcrt.getch().decode('UTF-8')
+        key=input("ingrese letra")
         # Hacer algo con keys:
         # move player and/or gnomes
         positionxy=player.loc()

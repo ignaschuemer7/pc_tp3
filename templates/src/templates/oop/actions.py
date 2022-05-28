@@ -1,6 +1,5 @@
 from typing import Union
 
-
 import mapping
 import player
 
@@ -49,16 +48,16 @@ def move_right(positionxy):
     return positionxy
 
 
-def climb_stair(dungeon: mapping.Dungeon, player: player.Player):
+#def climb_stair(dungeon: mapping.Dungeon, player: player.Player):
     # completar
     raise NotImplementedError
 
 
-def descend_stair(dungeon: mapping.Dungeon, player: player.Player):
+#def descend_stair(dungeon: mapping.Dungeon, player: player.Player):#
     # completar
     raise NotImplementedError
 
 
-def pickup(dungeon: mapping.Dungeon, player: player.Player):
+#def pickup(dungeon: mapping.Dungeon, player: player.Player):
     # completar
     raise NotImplementedError

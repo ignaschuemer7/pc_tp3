@@ -60,6 +60,6 @@ def move_right(positionxy):
     raise NotImplementedError
 
 
-def pickup(dungeon: mapping.Dungeon , player: player.Player):
-    Human.tool=True
-    return Human
+#def pickup(dungeon: mapping.Dungeon , player: player.Player):
+##    Human.tool=True
+  #  return Human

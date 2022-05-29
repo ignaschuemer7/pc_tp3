@@ -5,10 +5,11 @@ numeric = Union[float, int]
 
 
 class Item:
-    def __init__(self, name, fc, type):
+    def __init__(self, name, xy, fc, type):
         self.name = name
         self.face = fc
         self.type = type
+        self.x, self.y = xy
 
     def __str__(self):
         return self.name
@@ -30,5 +31,5 @@ class Amulet(Item):
 
 
 class PickAxe(Item):
-    def __init__(self, name: str, fc="("):
-        super().__init__(name, fc, 'tool')
+    def __init__(self, name: str, xy,fc="("):
+        super().__init__(name,xy,fc, 'tool')

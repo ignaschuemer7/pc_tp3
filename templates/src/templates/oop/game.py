@@ -37,7 +37,9 @@ if __name__ == "__main__":
     gnomo = Gnomo('gnomo', mapping.Dungeon.find_free_tile(dungeon) ,'G',50)
     # Agregarle cosas al dungeon, cosas que no se creen automáticamente al crearlo (por ejemplo, ya se crearon las escaleras).
     turns = 0
-    mapping.Level.add_item(level,items.PickAxe,mapping.Dungeon.find_free_tile(dungeon))
+
+    pickacke=items.PickAxe("pickAxe",mapping.Dungeon.find_free_tile(dungeon))
+    #mapping.Level.add_item(items.PickAxe,mapping.Dungeon.find_free_tile(dungeon))
     while dungeon.level >= 0:
         turns += 1
         # render map

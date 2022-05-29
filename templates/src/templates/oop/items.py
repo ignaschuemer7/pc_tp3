@@ -16,6 +16,9 @@ class Item:
 
     def __repr__(self):
         return f"Item('{self.name}', '{self.face}')"
+        
+    def loc(self):
+        return self.x, self.y
 
 
 class Sword(Item):

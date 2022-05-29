@@ -38,12 +38,12 @@ if __name__ == "__main__":
     # Agregarle cosas al dungeon, cosas que no se creen automáticamente al crearlo (por ejemplo, ya se crearon las escaleras).
     turns = 0
 
-    pickacke=items.PickAxe("pickAxe",mapping.Dungeon.find_free_tile(dungeon))
+    pickAxe=items.PickAxe("pickAxe",mapping.Dungeon.find_free_tile(dungeon))
     #mapping.Level.add_item(items.PickAxe,mapping.Dungeon.find_free_tile(dungeon))
     while dungeon.level >= 0:
         turns += 1
         # render map
-        dungeon.render(player,gnomo)
+        dungeon.render(player,gnomo,pickAxe)
         
         # read key
 

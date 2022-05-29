@@ -1,7 +1,9 @@
 from typing import Union
 
-import mapping
+
+from human import Human
 import player
+import mapping
 
 
 numeric = Union[int, float]
@@ -58,6 +60,6 @@ def move_right(positionxy):
     raise NotImplementedError
 
 
-#def pickup(dungeon: mapping.Dungeon, player: player.Player):
-    # completar
-    raise NotImplementedError
+def pickup(dungeon: mapping.Dungeon , player: player.Player):
+    Human.tool=True
+    return Human

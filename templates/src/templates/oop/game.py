@@ -1,14 +1,18 @@
+
 from re import X
 import time
 import mapping
-import magic
+
 
 import random
 from human import Human
 from gnomo import Gnomo
-from items import Item
+import items
 from actions import *
 import msvcrt
+import player
+
+
 
 
 ROWS = 25
@@ -26,39 +30,47 @@ def choose_caracter():
 
 if __name__ == "__main__":
     # initial parameters
-    level = 0
-    player = Human('player',(12,12),'@')
-    # initial locations may be random generated
-    gnomo = Gnomo('gnomo',(13,16),'G',50)
-
     dungeon = mapping.Dungeon(ROWS, COLUMNS, 3)
+    level = 0
+    player = Human('player', mapping.Dungeon.find_free_tile(dungeon) ,'@')
+    # initial locations may be random generated
+    gnomo = Gnomo('gnomo', mapping.Dungeon.find_free_tile(dungeon) ,'G',50)
     # Agregarle cosas al dungeon, cosas que no se creen automáticamente al crearlo (por ejemplo, ya se crearon las escaleras).
-
     turns = 0
+    mapping.Level.add_item(level,items.PickAxe,mapping.Dungeon.find_free_tile(dungeon))
     while dungeon.level >= 0:
         turns += 1
         # render map
         dungeon.render(player,gnomo)
-
+        
         # read key
 
-        
+        position_xy_gnomo=gnomo.loc()
+
         #key = msvcrt.getch().decode('UTF-8')
         key=input("ingrese letra")
         # Hacer algo con keys:
         # move player and/or gnomes
-        positionxy=player.loc()
-        if key=="w":
-            positionxy=move_up(positionxy)
-        elif key=="s":
-            positionxy=move_down(positionxy)
-        elif key=="d":
-            positionxy=move_right(positionxy)
-        elif key=="a":
-            positionxy=move_left(positionxy)
         
-        if dungeon.is_walkable(positionxy) and is_in_dungeon(positionxy):
-            player=move_to(player,positionxy)
+        position_xy_human=player.loc()
+
+        if key=="w":
+            position_xy_human=move_up(position_xy_human)
+        elif key=="s":
+            position_xy_human=move_down(position_xy_human)
+        elif key=="d":
+            position_xy_human=move_right(position_xy_human)
+        elif key=="a":
+            position_xy_human=move_left(position_xy_human)
+        
+        if dungeon.is_walkable(position_xy_human) and is_in_dungeon(position_xy_human):
+            player=move_to(player,position_xy_human)
+        
+        
+
+        
+
+        
         
         
         

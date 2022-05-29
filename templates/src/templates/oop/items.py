@@ -30,5 +30,5 @@ class Amulet(Item):
 
 
 class PickAxe(Item):
-    def __init__(self, name: str, fc: str):
+    def __init__(self, name: str, fc="("):
         super().__init__(name, fc, 'tool')

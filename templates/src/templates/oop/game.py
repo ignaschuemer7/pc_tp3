@@ -32,18 +32,27 @@ if __name__ == "__main__":
     # initial parameters
     dungeon = mapping.Dungeon(ROWS, COLUMNS, 3)
     level = 0
-    player = Human('player', mapping.Dungeon.find_free_tile(dungeon) ,'@')
+    player1 = Human('player', mapping.Dungeon.find_free_tile(dungeon) ,'@')
     # initial locations may be random generated
     gnomo = Gnomo('gnomo', mapping.Dungeon.find_free_tile(dungeon) ,'G',50)
     # Agregarle cosas al dungeon, cosas que no se creen automáticamente al crearlo (por ejemplo, ya se crearon las escaleras).
     turns = 0
 
-    pickAxe=items.PickAxe("pickAxe",mapping.Dungeon.find_free_tile(dungeon))
-    #mapping.Level.add_item(items.PickAxe,mapping.Dungeon.find_free_tile(dungeon))
+    pickaxe=items.PickAxe("pickacke",mapping.Dungeon.find_free_tile(dungeon))
+    sword=items.Sword("sword",mapping.Dungeon.find_free_tile(dungeon))
+    amulet=items.Amulet("amulet",mapping.Dungeon.find_free_tile(dungeon))
+
+    mapping.Dungeon.add_item(dungeon,pickaxe, pickaxe.loc())
+
+    mapping.Dungeon.add_item(dungeon,sword, sword.loc())
+
+    mapping.Dungeon.add_item(dungeon,amulet, amulet.loc())
+    
+
     while dungeon.level >= 0:
         turns += 1
         # render map
-        dungeon.render(player,gnomo,pickAxe)
+        dungeon.render(player1,gnomo)
         
         # read key
 
@@ -54,7 +63,7 @@ if __name__ == "__main__":
         # Hacer algo con keys:
         # move player and/or gnomes
         
-        position_xy_human=player.loc()
+        position_xy_human=player1.loc()
 
         if key=="w":
             position_xy_human=move_up(position_xy_human)
@@ -64,9 +73,24 @@ if __name__ == "__main__":
             position_xy_human=move_right(position_xy_human)
         elif key=="a":
             position_xy_human=move_left(position_xy_human)
+
+    
+        if is_in_dungeon(position_xy_human):
+            if dungeon.is_walkable(position_xy_human):
+                player1=move_to(player1,position_xy_human)
+            elif player1.tool:
+                dungeon.dig(position_xy_human)
+                player1=move_to(player1,position_xy_human)
+    
+        mapping.Dungeon.get_items(dungeon,player1.loc())
+
+        if player1.loc()==pickaxe.loc():
+            player1.tool=True
         
-        if dungeon.is_walkable(position_xy_human) and is_in_dungeon(position_xy_human):
-            player=move_to(player,position_xy_human)
+        if player1.loc()==sword.loc():
+            player1.has_sword=True
+            print("tiene espada")
+        
         
         
 

@@ -15,5 +15,6 @@ class Human(Player):
         return random.random() * 10 + 1
 
     def has_sword(self)->bool:
-        return self.sword
+        self.weapon=True
+        return self
 

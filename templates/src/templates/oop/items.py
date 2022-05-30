@@ -16,23 +16,23 @@ class Item:
 
     def __repr__(self):
         return f"Item('{self.name}', '{self.face}')"
-        
+
     def loc(self):
         return self.x, self.y
 
 
 class Sword(Item):
-    def __init__(self, name: str, fc: str, min_dmg: numeric, max_dmg: numeric):
-        super().__init__(name, fc, 'weapon')
+    def __init__(self, name: str, xy, fc: str='/', min_dmg: numeric=10, max_dmg: numeric=20):
+        super().__init__(name, xy, fc,'weapon')
         self.min_dmg = min_dmg
         self.max_dmg = max_dmg
 
 
 class Amulet(Item):
-    def __init__(self, name: str, fc: str):
-        super().__init__(name, fc, 'treasure')
+    def __init__(self, name: str,xy, fc='"'):
+        super().__init__(name, xy, fc,'treasure')
 
 
 class PickAxe(Item):
-    def __init__(self, name: str, xy,fc="("):
-        super().__init__(name,xy,fc, 'tool')
+    def __init__(self, name: str,xy,fc="("):
+        super().__init__(name,xy,fc,'tool')

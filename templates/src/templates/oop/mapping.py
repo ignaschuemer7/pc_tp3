@@ -111,7 +111,7 @@ class Level:
         items.append(item)
         self.items[(i, j)] = items
 
-    def render(self, player: player.Player,gnomo,pickAxe):
+    def render(self, player: player.Player,gnomo):#,pickAxe):
         """Draw the map onto the terminal, including player and items. Player must have a loc() method, returning its
         location, and a face attribute. All items in the map must have a face attribute which is going to be shown. If
         there are multiple items in one location, only one will be rendered.
@@ -126,8 +126,8 @@ class Level:
                     print(self.items[(i, j)][0].face, end='')
                 elif (j, i) == Gnomo.loc(gnomo):
                     print(gnomo.face, end='')
-                elif (j, i) == items.PickAxe.loc(pickAxe):
-                    print(pickAxe.face, end='')
+                #elif (j, i) == items.PickAxe.loc(pickAxe):
+                #    print(pickAxe.face, end='')
                 else:
                     print(cell.face, end='')
             print("|")
@@ -224,12 +224,12 @@ class Dungeon:
         # Ubicar escalera del nivel inferior
         self.dungeon[-1].add_stair_up(self.stairs_up[-1])
 
-    def render(self, player: player.Player,gnomo: player.Player,pickAxe):
+    def render(self, player: player.Player,gnomo: player.Player):#,pickAxe):
         """Draw current level onto the terminal, including player and items. Player must have a loc() method, returning
         its location, and a face attribute. All items in the map must have a face attribute which is going to be shown.
         If there are multiple items in one location, only one will be rendered.
         """
-        self.dungeon[self.level].render(player,gnomo,pickAxe)
+        self.dungeon[self.level].render(player,gnomo) #pickAxe)
 
     def find_free_tile(self) -> Location:
         """Randomly searches for a free location inside the level's map.
@@ -241,7 +241,7 @@ class Dungeon:
         """Check if a player can walk through a given location. See Level.is_walkable()."""
         return self.dungeon[self.level].is_walkable(location)
 
-    def add_item(self, item: items.Item, level: Optional[int] = None, xy: Optional[Location] = None):
+    def add_item(self, item: items.Item,xy: Optional[Location] = None, level: Optional[int] = None ):
         """Add an item to a given location in the map of a given or current level. If no location is given, one free
         space is randomly searched. This method might never if the probability of finding a free space is low.
         """

@@ -53,6 +53,7 @@ if __name__ == "__main__":
     while dungeon.level >= 0:
         turns += 1
         # render map
+        
         if player1.loc()==mapping.STAIR_UP:
             dungeon.level-=1
         elif player1.loc()==mapping.STAIR_DOWN:

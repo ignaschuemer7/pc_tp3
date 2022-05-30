@@ -48,10 +48,16 @@ if __name__ == "__main__":
 
     mapping.Dungeon.add_item(dungeon,amulet, amulet.loc())
     
+  
 
     while dungeon.level >= 0:
         turns += 1
         # render map
+        if player1.loc()==mapping.STAIR_UP:
+            dungeon.level-=1
+        elif player1.loc()==mapping.STAIR_DOWN:
+            dungeon.level+=1
+    
         dungeon.render(player1,gnomo)
         
         # read key
@@ -89,7 +95,8 @@ if __name__ == "__main__":
         
         if player1.loc()==sword.loc():
             player1.has_sword=True
-            print("tiene espada")
+        
+       
         
         
         

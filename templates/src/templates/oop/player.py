@@ -14,10 +14,10 @@ class Player:
         self.x, self.y = xy
 
     def __str__(self):
-        return self.name
+        return 
 
     def __repr__(self):
-        return f"Player('{self.name}', '{self.loc}', '{self.hp}')"
+        return f"Player('{self.name}', '{self.loc()}', '{self.hp}')"
         
     def kill(self):
         self.hp=0

@@ -42,11 +42,11 @@ if __name__ == "__main__":
     sword=items.Sword("sword",mapping.Dungeon.find_free_tile(dungeon))
     amulet=items.Amulet("amulet",mapping.Dungeon.find_free_tile(dungeon))
 
-    mapping.Dungeon.add_item(dungeon,pickaxe, pickaxe.loc())
+    mapping.Dungeon.add_item(dungeon,pickaxe, pickaxe.loc(),1)
 
-    mapping.Dungeon.add_item(dungeon,sword, sword.loc())
+    mapping.Dungeon.add_item(dungeon,sword, sword.loc(),2)
 
-    mapping.Dungeon.add_item(dungeon,amulet, amulet.loc())
+    mapping.Dungeon.add_item(dungeon,amulet, amulet.loc(),3)
     
   
 
@@ -54,19 +54,14 @@ if __name__ == "__main__":
         turns += 1
         # render map
         
-        if player1.loc()==mapping.STAIR_UP:
-            dungeon.level-=1
-        elif player1.loc()==mapping.STAIR_DOWN:
-            dungeon.level+=1
-    
         dungeon.render(player1,gnomo)
         
         # read key
 
         position_xy_gnomo=gnomo.loc()
 
-        #key = msvcrt.getch().decode('UTF-8')
-        key=input("ingrese letra")
+        key = msvcrt.getch().decode('UTF-8')
+        #key=input("ingrese letra")
         # Hacer algo con keys:
         # move player and/or gnomes
         
@@ -88,16 +83,32 @@ if __name__ == "__main__":
             elif player1.tool:
                 dungeon.dig(position_xy_human)
                 player1=move_to(player1,position_xy_human)
-    
-        mapping.Dungeon.get_items(dungeon,player1.loc())
 
+
+        move_gnomo(gnomo,position_xy_gnomo,dungeon)
+
+        mapping.Dungeon.get_items(dungeon,player1.loc())
+        #condiciones si el juegador agarra los items
         if player1.loc()==pickaxe.loc():
             player1.tool=True
         
         if player1.loc()==sword.loc():
-            player1.has_sword=True
+            player1.has_sword
         
-       
+        if player1.loc()==amulet.loc():
+            player1.treasure=True
+
+        if mapping.Dungeon.loc(dungeon,player1.loc()).face =='<':
+            dungeon.level-=1
+        elif mapping.Dungeon.loc(dungeon,player1.loc()).face =='>':
+            dungeon.level+=1
+        
+        
+        
+    if player1.treasure==True:
+        print("You Win!!")
+    else:
+        print("You Lose..Try again!")
         
         
         

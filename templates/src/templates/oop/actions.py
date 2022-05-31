@@ -3,7 +3,9 @@ from typing import Union
 
 from human import Human
 import player
-import mapping
+import gnomo
+import random
+import game
 
 
 numeric = Union[int, float]
@@ -49,15 +51,28 @@ def move_right(positionxy):
     positionxy=(positionxy[0]+1,positionxy[1])
     return positionxy
 
+def move_gnomo(gnomo : player.Player,position_xy_gnomo,dungeon):
+    while True:
+        old_position=position_xy_gnomo
+        
+        position_xy_gnomo=random.choice([move_up(position_xy_gnomo),move_down(position_xy_gnomo),
+        move_right(position_xy_gnomo),move_left(position_xy_gnomo)])
+
+        if is_in_dungeon(position_xy_gnomo) and dungeon.is_walkable(position_xy_gnomo):
+            break 
+        else:
+            position_xy_gnomo=old_position
+    gnomo.move_to(position_xy_gnomo)
+
 
 #def climb_stair(dungeon: mapping.Dungeon, player: player.Player):
     # completar
-    raise NotImplementedError
+   # raise NotImplementedError
 
 
 #def descend_stair(dungeon: mapping.Dungeon, player: player.Player):#
     # completar
-    raise NotImplementedError
+   # raise NotImplementedError
 
 
 #def pickup(dungeon: mapping.Dungeon , player: player.Player):

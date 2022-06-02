@@ -24,9 +24,11 @@ def is_in_dungeon(xy):
     return False
 
 
-def attack(dungeon, player): # completar
-    # completar
-    raise NotImplementedError
+def attack(dungeon, do_damage: player.Player, recive_damage: player.Player):
+    generate_damage=do_damage.damage()
+    recive_damage=recive_damage.recive_damage(generate_damage)
+    
+    
 
 
 def move_to(player: player.Player, location: tuple[numeric, numeric]):
@@ -51,18 +53,20 @@ def move_right(positionxy):
     positionxy=(positionxy[0]+1,positionxy[1])
     return positionxy
 
-def move_gnomo(gnomo : player.Player,position_xy_gnomo,dungeon):
+def move_gnomo(position_xy_gnomo,dungeon):
+    
     while True:
-        old_position=position_xy_gnomo
-        
-        position_xy_gnomo=random.choice([move_up(position_xy_gnomo),move_down(position_xy_gnomo),
-        move_right(position_xy_gnomo),move_left(position_xy_gnomo)])
 
-        if is_in_dungeon(position_xy_gnomo) and dungeon.is_walkable(position_xy_gnomo):
-            break 
-        else:
+            old_position=position_xy_gnomo
+
+            position_xy_gnomo=random.choice([move_up(position_xy_gnomo),move_down(position_xy_gnomo),
+            move_right(position_xy_gnomo),move_left(position_xy_gnomo)])
+
+            if is_in_dungeon(position_xy_gnomo) and dungeon.is_walkable(position_xy_gnomo):
+                break
             position_xy_gnomo=old_position
-    gnomo.move_to(position_xy_gnomo)
+            
+    return position_xy_gnomo
 
 
 #def climb_stair(dungeon: mapping.Dungeon, player: player.Player):

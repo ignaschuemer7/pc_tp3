@@ -10,11 +10,15 @@ class Human(Player):
         self.tool = False #seria el pico. si lo tiene o no
 
     def damage(self):
-        if self.sword:
-            return random.random() * 20 + 5
-        return random.random() * 10 + 1
+        if self.weapon:
+            return random.randint(1,2) * 20 + 5
+        return random.randint(1,2) * 10 + 1
 
     def has_sword(self)->bool:
         self.weapon=True
         return self
+
+    def __str__(self):
+        
+        return f"|Player: {self.name} |HP: {self.hp} |PickAxe: {self.tool} |Sword: {self.treasure} |Treasure: {self.treasure}"
 

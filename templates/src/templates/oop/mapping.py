@@ -1,6 +1,7 @@
 import random
 from re import S
 from typing import Optional, Tuple, List
+import actions
 
 
 import player
@@ -125,10 +126,10 @@ class Level:
             for j, cell in enumerate(row):
                 if (j, i) == Human.loc(player):
                     print(player.face, end='')
-                elif (i, j) in self.items:
-                    print(self.items[(i, j)][0].face, end='')
                 elif (j, i) == Gnomo.loc(gnomo):
                     print(gnomo.face, end='')
+                elif (i, j) in self.items:
+                    print(self.items[(i, j)][0].face, end='')
                 else:
                     print(cell.face, end='')
             print("|")
@@ -182,11 +183,34 @@ class Level:
         """Check if a given location is free of other entities."""
         # completar
         raise NotImplementedError
-
-    def are_connected(self, initial: Location, end: Location) -> bool:
+    
+    def are_connected(self,initial: Location, end: Location) -> bool:
         """Check if there is walkable path between initial location and end location."""
-        # completar
-        raise NotImplementedError
+        up,down=actions.move_up(initial),actions.move_down(initial)
+        left,right=actions.move_left(initial),actions.move_right(initial)
+
+        if Dungeon.is_walkable(self,up):
+            if up==end:
+                return True 
+            else:
+                return Level.are_connected(self,up,end)
+        if Dungeon.is_walkable(self,down):
+            if down==end:
+                return True 
+            else:
+                return Level.are_connected(self,down,end)
+        if Dungeon.is_walkable(self,left):
+            if left==end:
+                return True 
+            else:
+                return Level.are_connected(self,left,end)
+        if Dungeon.is_walkable(self,right):
+            if right==end:
+                return True 
+            else:
+                return Level.are_connected(self,right,end)
+        return False
+     
 
     def get_path(self, initial: Location, end: Location) -> bool:
         """Return a sequence of locations between initial location and end location, if it exits."""
@@ -228,12 +252,12 @@ class Dungeon:
         
         self.dungeon[-1].add_stair_up(self.stairs_up[-1])
 
-    def render(self, player: player.Player,gnomo: player.Player):#,pickAxe):
+    def render(self, player: player.Player,gnomo: player.Player):
         """Draw current level onto the terminal, including player and items. Player must have a loc() method, returning
         its location, and a face attribute. All items in the map must have a face attribute which is going to be shown.
         If there are multiple items in one location, only one will be rendered.
         """
-        self.dungeon[self.level].render(player,gnomo) #pickAxe)
+        self.dungeon[self.level].render(player,gnomo)
 
     def find_free_tile(self) -> Location:
         """Randomly searches for a free location inside the level's map.

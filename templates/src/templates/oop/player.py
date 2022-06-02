@@ -1,3 +1,4 @@
+
 class Player:
     def __init__(self, name, xy, face, hit_points=50):
         self.name = name
@@ -12,9 +13,10 @@ class Player:
 
     def move_to(self, xy):
         self.x, self.y = xy
-
-    def __str__(self):
-        return 
+        
+    def recive_damage(self,damage):
+        self.hp=self.hp-damage
+        return self
 
     def __repr__(self):
         return f"Player('{self.name}', '{self.loc()}', '{self.hp}')"

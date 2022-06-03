@@ -61,7 +61,7 @@ def move_gnomo(position_xy_gnomo,dungeon):
 
             if is_in_dungeon(position_xy_gnomo) and dungeon.is_walkable(position_xy_gnomo):
                 break
-            #si no se puede mover para niguno de los lados, cortara el while
+            #if it can't move to either side, it will cut the loop
             if (not dungeon.is_walkable(move_up(position_xy_gnomo)) 
             and not dungeon.is_walkable(move_down(position_xy_gnomo)) 
             and not dungeon.is_walkable(move_right(position_xy_gnomo)) 

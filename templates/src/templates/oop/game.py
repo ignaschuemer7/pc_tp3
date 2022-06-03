@@ -20,12 +20,12 @@ def choose_caracter():
     choice = input("input the choice")
 
 if __name__ == "__main__":
-    # initial parameters
+    #Initial parameters
     dungeon = mapping.Dungeon(ROWS, COLUMNS, 3)
     turns = 0
-    # player
+    #Caracter
     player1 = Human('player', dungeon.find_free_tile() ,'@',300)
-    # gnomos
+    #Gnomos
     gnomo1 = Gnomo('gnomo', dungeon.find_free_tile() ,'G',50)
     gnomo2 = Gnomo('gnomo', dungeon.find_free_tile() ,'Ĝ',100)
     gnomo3 = Gnomo('gnomo', dungeon.find_free_tile() ,'ğ',200)

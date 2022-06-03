@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Tuple, Union
 
 
 from human import Human
@@ -18,13 +18,29 @@ def clip(value: numeric, minimum: numeric, maximum: numeric) -> numeric:
         return maximum
     return value
     
-def is_in_dungeon(xy):
+def is_in_dungeon(xy:tuple) -> bool:
+    '''
+    Analyze if the player's movement is within the limits of the map.
+
+    Parameters
+    ----------
+    xy : tuple
+        Represents player movement.
+   
+    Returns
+    -------
+        True or False
+
+    '''  
     if xy[0] in list(range(0,80)) and xy[1] in list(range(0,25)):
         return True
     return False
 
 
 def attack(do_damage, recive_damage):
+    '''
+    
+    '''
     generate_damage=do_damage.damage()
     recive_damage.recive_damage(generate_damage)
     
@@ -33,24 +49,76 @@ def move_to(player: player.Player, location: tuple[numeric, numeric]):
     return player
     
 def move_up(positionxy):
+    '''
+    Makes an upward movement.
+
+    Parameters
+    ----------
+    positionxy : tuple
+        Represents the player's position in the dungeon.
+   
+    Returns
+    -------
+        New positionxy
+
+    '''
     positionxy=(positionxy[0],positionxy[1]-1)
     return positionxy
 
 def move_down(positionxy):
+    '''
+    Makes a downward movement.
+
+    Parameters
+    ----------
+    positionxy : tuple
+        Represents the player's position in the dungeon.
+   
+    Returns
+    -------
+        New positionxy
+        
+    '''
     positionxy=(positionxy[0],positionxy[1]+1)
     return positionxy
 
 
-def move_left(positionxy):
+def move_left(positionxy: tuple) -> tuple:
+    '''
+    Make a movement to the left. 
+
+    Parameters
+    ----------
+    positionxy : tuple
+        Represents the player's position in the dungeon.
+   
+    Returns
+    -------
+        New positionxy
+
+    '''
     positionxy=(positionxy[0]-1,positionxy[1])
     return positionxy
 
 
-def move_right(positionxy):
+def move_right(positionxy: tuple) -> tuple:
+    '''
+    Make a movement to the right. 
+
+    Parameters
+    ----------
+    positionxy : tuple
+        Represents the player's position in the dungeon.
+   
+    Returns
+    -------
+        New positionxy
+
+    '''
     positionxy=(positionxy[0]+1,positionxy[1])
     return positionxy
 
-def move_gnomo(position_xy_gnomo,dungeon):
+def move_gnomo(position_xy_gnomo: tuple,dungeon) -> tuple:
     
     while True:
 
@@ -100,6 +168,7 @@ def human_is_dead(player1):
     if not player1.alive:
         return True
     return False
+
 def gnomo_is_dead(gnome):
     if gnome.hp<=0:
             gnome.kill()
@@ -121,7 +190,7 @@ def gnomo_move_and_attack(player1,gnome,position_xy_human,position_xy_gnomo):
     if position_xy_gnomo!=position_xy_human and gnome.alive:
         gnome.move_to(position_xy_gnomo)
     elif gnome.alive:
-        #ataque del gnomo hacia el jugador
+        #Gnome attack towards Player
         attack(gnome, player1)
 
 def player_move_and_attack(dungeon,player1,gnome,position_xy_human,position_xy_gnomo):
@@ -132,7 +201,7 @@ def player_move_and_attack(dungeon,player1,gnome,position_xy_human,position_xy_g
             dungeon.dig(position_xy_human)
             player1=move_to(player1,position_xy_human)
     elif is_in_dungeon(position_xy_human) and dungeon.is_walkable(position_xy_human):
-        #ataque del jugador al gnomo
+        #Player attack towards Gnome
         attack(player1, gnome)
         
 def select_gnome(level,gnomo1,gnomo2,gnomo3):

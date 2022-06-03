@@ -11,17 +11,11 @@ from human import Human
 from game import Gnomo
 import sys
 
-
-
-
-
-
-
 Location = Tuple[int, int]
 
-
 class Tile:
-    """Tile(char: str, walkable: bool=True)
+    """
+    Tile(char: str, walkable: bool=True)
 
     A Tile is the object used to represent the type of the dungeon floor.
 
@@ -29,6 +23,7 @@ class Tile:
 
     char (str) -- string of length 1 that is rendered when rendering a map.
     walkable (bool) -- states if the tile is walkable or not.
+    
     """
     def __init__(self, char: str, walkable: bool = True):
         self.walkable = walkable
@@ -46,7 +41,8 @@ STAIR_DOWN = Tile('>')
 
 
 class Level:
-    """Level(rows: int, columns: int) -> Level
+    """
+    Level(rows: int, columns: int) -> Level
 
     Arguments
 
@@ -56,7 +52,10 @@ class Level:
     Returns an instance of a level.
     """
     def __init__(self, rows: int, columns: int):
-        """Initializes a dungeon level class. See class documentation."""
+        """
+        Initializes a dungeon level class. See class documentation.
+        
+        """
         tiles = [[1] * 12 + [0] * (columns - 24) + [1] * 12]  # 0=air 1=rocks
         for row in range(1, rows):
             local = tiles[row - 1][:]
@@ -74,8 +73,10 @@ class Level:
         self.items = {}
 
     def find_free_tile(self) -> Location:
-        """Randomly searches for a free location inside the level's map.
+        """
+        Randomly searches for a free location inside the level's map.
         This method might never end.
+
         """
         i, j = random.randint(0, self.rows - 1), random.randint(0, self.columns - 1)
         while self.tiles[i][j] != AIR:
@@ -83,11 +84,17 @@ class Level:
         return (j, i)
 
     def get_random_location(self) -> Location:
-        """Compute and return a random location in the map."""
+        """
+        Compute and return a random location in the map.
+        
+        """
         return random.randint(0, self.columns - 1), random.randint(0, self.rows - 1)
 
     def add_stair_up(self, location: Optional[Location] = None):
-        """Add an ascending stair tile to a given or random location in the map."""
+        """
+        Add an ascending stair tile to a given or random location in the map.
+        
+        """
         if location is not None:
             j, i = location
         else:
@@ -96,7 +103,10 @@ class Level:
         self.tiles[i][j] = STAIR_UP
 
     def add_stair_down(self, location: Optional[Location] = None):
-        """Add a descending stair tile to a give or random location in the map."""
+        """
+        Add a descending stair tile to a give or random location in the map.
+        
+        """
         if location is not None:
             j, i = location
         else:
@@ -105,8 +115,10 @@ class Level:
         self.tiles[i][j] = STAIR_DOWN
 
     def add_item(self, item: items.Item, location: Optional[Location] = None):
-        """Add an item to a given location in the map. If no location is given, one free space is randomly searched.
+        """
+        Add an item to a given location in the map. If no location is given, one free space is randomly searched.
         This method might never if the probability of finding a free space is low.
+        
         """
         if location is None:
             j, i = self.find_free_tile()
@@ -117,9 +129,11 @@ class Level:
         self.items[(i, j)] = items
 
     def render(self, player: player.Player,gnomo):
-        """Draw the map onto the terminal, including player and items. Player must have a loc() method, returning its
+        """
+        Draw the map onto the terminal, including player and items. Player must have a loc() method, returning its
         location, and a face attribute. All items in the map must have a face attribute which is going to be shown. If
         there are multiple items in one location, only one will be rendered.
+        
         """
         print("-" + "-" * len(self.tiles[0]) + "-")
         for i, row in enumerate(self.tiles):
@@ -137,12 +151,16 @@ class Level:
         print("-" + "-" * len(self.tiles[0]) + "-")
 
     def is_walkable(self, location: Location):
-        """Check if a player can walk through a given location."""
+        """
+        Check if a player can walk through a given location.
+        
+        """
         j, i = location
         return self.tiles[i % self.rows][j % self.columns].is_walkable()
 
     def index(self, tile: Tile) -> Location:
-        """Get the location of a given tile in the map. If there are multiple tiles of that type, then only one is
+        """
+        Get the location of a given tile in the map. If there are multiple tiles of that type, then only one is
         returned.
 
         Arguments
@@ -150,6 +168,7 @@ class Level:
         tile (Tile) -- one of the known tile types (AIR, WALL, STAIR_DOWN, STAIR_UP)
 
         Returns the location of that tile type or raises ValueError
+       
         """
         for i in range(self.rows):
             try:
@@ -160,12 +179,18 @@ class Level:
         raise ValueError
 
     def loc(self, xy: Location) -> Tile:
-        """Get the tile type at a give location."""
+        """
+        Get the tile type at a give location.
+        
+        """
         j, i = xy
         return self.tiles[i][j]
 
     def get_items(self, xy: Location) -> List[items.Item]:
-        """Get a list of all items at a given location. Removes the items from that location."""
+        """
+        Get a list of all items at a given location. Removes the items from that location.
+        
+        """
         j, i = xy
         if (i, j) in self.items:
             items = self.items[(i, j)]
@@ -175,7 +200,10 @@ class Level:
         return items
 
     def dig(self, xy: Location) -> None:
-        """Replace a WALL at the given location, by AIR."""
+        """
+        Replace a WALL at the given location, by AIR.
+        
+        """
         j, i = xy
         if self.tiles[i][j] is WALL:
             self.tiles[i][j] = AIR
@@ -188,7 +216,10 @@ class Level:
 
     
     def is_free(self, xy: Location) -> bool:
-        """Check if a given location is free of other entities."""
+        """
+        Check if a given location is free of other entities.
+        
+        """
         # completar
         raise NotImplementedError
     
@@ -196,7 +227,10 @@ class Level:
      
 
     def get_path(self, initial: Location, end: Location) -> bool:
-        """Return a sequence of locations between initial location and end location, if it exits."""
+        """
+        Return a sequence of locations between initial location and end location, if it exits.
+        
+        """
         # completar
         raise NotImplementedError
     
@@ -214,7 +248,10 @@ class Dungeon:
     Returns an instance of a dungeon.
     """
     def __init__(self, rows: int, columns: int, levels: int = 3):
-        """Initializes a dungeon class. See class documentation."""
+        """
+        Initializes a dungeon class.
+        
+        """
         self.dungeon = [Level(rows, columns) for _ in range(levels)]
         self.rows = rows
         self.columns = columns
@@ -224,22 +261,19 @@ class Dungeon:
         self.stairs_down = [level.get_random_location() for level in self.dungeon[:-1]]
 
         for level, loc_up, loc_down in zip(self.dungeon[:-1], self.stairs_up[:-1], self.stairs_down):
-            # Ubicar escalera que sube
-            
+            #Locate the ladder to climb 
             level.add_stair_up(loc_up)
-
-            # Ubicar escalera que baja
-            
+            #Locate the ladder to go down
             level.add_stair_down(loc_down)
-
-        # Ubicar escalera del nivel inferior
-        
+        #Locate lower level staircase
         self.dungeon[-1].add_stair_up(self.stairs_up[-1])
 
     def render(self, player: player.Player,gnomo: player.Player):
-        """Draw current level onto the terminal, including player and items. Player must have a loc() method, returning
+        """
+        Draw current level onto the terminal, including player and items. Player must have a loc() method, returning
         its location, and a face attribute. All items in the map must have a face attribute which is going to be shown.
         If there are multiple items in one location, only one will be rendered.
+        
         """
         self.dungeon[self.level].render(player,gnomo)
 

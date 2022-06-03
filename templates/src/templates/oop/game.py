@@ -53,9 +53,9 @@ if __name__ == "__main__":
         #renderizamos el juego
         dungeon.render(player1,gnome)
 
-        '''
-        #print(dungeon.are_connected(player1.loc(), pickaxe.loc()))
-        '''
+        
+        print(dungeon.are_connected(player1.loc(), pickaxe.loc()))
+        
         #posiciones de los jugadores
         position_xy_gnomo=gnome.loc()
         position_xy_human=player1.loc()

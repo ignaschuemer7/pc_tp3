@@ -186,7 +186,7 @@ class Level:
         return self.items
     '''   
 
-    
+
     def is_free(self, xy: Location) -> bool:
         """Check if a given location is free of other entities."""
         # completar
@@ -298,34 +298,30 @@ class Dungeon:
         up,down=actions.move_up(initial),actions.move_down(initial)
         left,right=actions.move_left(initial),actions.move_right(initial)
        
-        if self.is_walkable(up) and actions.is_in_dungeon(up) and up not in check_spaces:
+        if self.is_walkable(up) and actions.is_in_dungeon(up):
             if up==end:
-                print('yes')
                 return True 
-            else:
+            elif up not in check_spaces:
                 check_spaces.append(up)
                 return self.are_connected(up,end,check_spaces)
-        if self.is_walkable(down) and actions.is_in_dungeon(down) and down not in check_spaces:
+        if self.is_walkable(down) and actions.is_in_dungeon(down):
             if down==end:
-                print('yes')
                 return True 
-            else:
+            elif down not in check_spaces:
                 check_spaces.append(down)
                 return self.are_connected(down,end,check_spaces)
-        if self.is_walkable(left) and actions.is_in_dungeon(left) and left not in check_spaces:
+        if self.is_walkable(left) and actions.is_in_dungeon(left):
             if left==end:
-                print('yes')
                 return True 
-            else:
+            elif left not in check_spaces:
                 check_spaces.append(left)
                 return self.are_connected(left,end,check_spaces)
-        if self.is_walkable(right) and actions.is_in_dungeon(right) and right not in check_spaces:
+        if self.is_walkable(right) and actions.is_in_dungeon(right):
             if right==end:
-                print('yes')
                 return True 
-            else:
-                print(up,right)
+            elif right not in check_spaces:
                 check_spaces.append(right)
                 return self.are_connected(right,end,check_spaces)
+        
         print(check_spaces)
         return False

@@ -136,18 +136,34 @@ def move_gnomo(position_xy_gnomo: tuple,dungeon,pickaxe,amulet,sword) -> tuple:
 
 
 def climb_stair(dungeon):
+    '''
+    Produces a change to the previous dungeon when the player climbs the stairs.
+
+    '''
     dungeon.level-=1
 
 def descend_stair(dungeon):
+    '''
+    Produces a change to the next dungeon when the player climbs the stairs.
+
+    '''
     dungeon.level+=1
 
 def stairs(dungeon,player1):
+    '''
+    Determines when the player goes up or down the stairs.
+
+    '''
     if dungeon.loc(player1.loc()).face =='<':
             climb_stair(dungeon)
     elif dungeon.loc(player1.loc()).face =='>':
             descend_stair(dungeon)
 
 def pickup(dungeon,player1,pickaxe,sword,amulet):
+    '''
+    Determines that the player has collected an item.
+
+    '''
     dungeon.get_items(player1.loc())
     if player1.loc()==pickaxe.loc() and dungeon.level==0:
             player1.tool=True
@@ -157,6 +173,10 @@ def pickup(dungeon,player1,pickaxe,sword,amulet):
             player1.treasure=True
 
 def human_is_dead(player1):
+    '''
+    Changes the Player's status to dead when it loses all its HP.
+
+    '''
     if player1.hp<=0:
         player1.kill()
     if not player1.alive:
@@ -164,6 +184,10 @@ def human_is_dead(player1):
     return False
 
 def gnomo_is_dead(gnome):
+    '''
+    Changes the Gnome's status to dead when it loses all its HP.
+
+    '''
     if gnome.hp<=0:
             gnome.kill()
             return True
@@ -199,6 +223,10 @@ def player_move_and_attack(dungeon,player1,gnome,position_xy_human,position_xy_g
         attack(player1, gnome)
         
 def select_gnome(level,gnomo1,gnomo2,gnomo3):
+    '''
+    Puts all the Gnomes in their corresponding level.
+    
+    '''
     if level == 0:
         gnome=gnomo1
     if level == 1:

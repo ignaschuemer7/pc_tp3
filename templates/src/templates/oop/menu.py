@@ -1,15 +1,15 @@
 import game
 def main():
     """
-    Esta funcion se ejecutara siempre, en ella se encuentran los menus principales.
+    Stores the game manu.
 
     Raises
     ------
     ValueError
-        Se utiliza para evitar errores a la hora de ingresar caracteres por medio de los inputs.
+        Avoid imput errors.
     """
     while True:
-        print("\n\nLet's play roguelike! \nWhat do you want to do?\n1. Play \n2. Quit")
+        print("\nLet's play roguelike! \nWhat do you want to do?\n1. Play \n2. Quit")
         while True:
             try:
                principal_menu=int(input("Select at most one option > "))

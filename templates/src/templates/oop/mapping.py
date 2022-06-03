@@ -41,7 +41,7 @@ STAIR_DOWN = Tile('>')
 
 
 class Level:
-    """
+    '''
     Level(rows: int, columns: int) -> Level
 
     Arguments
@@ -50,12 +50,13 @@ class Level:
     columns (int) -- is the number of columns for the level.
 
     Returns an instance of a level.
-    """
+
+    '''
     def __init__(self, rows: int, columns: int):
-        """
-        Initializes a dungeon level class. See class documentation.
+        '''
+        Initializes a dungeon level class.
         
-        """
+        '''
         tiles = [[1] * 12 + [0] * (columns - 24) + [1] * 12]  # 0=air 1=rocks
         for row in range(1, rows):
             local = tiles[row - 1][:]

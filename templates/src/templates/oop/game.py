@@ -55,7 +55,7 @@ def game(name):
         player_move_and_attack(dungeon,player1,gnome,position_xy_human,position_xy_gnomo)
         #Position update
         position_xy_human=player1.loc()
-        position_xy_gnomo=move_gnomo(gnome.loc(),dungeon)
+        position_xy_gnomo=move_gnomo(gnome.loc(),dungeon,pickaxe,amulet,sword)
         #Gnome´s moves and attacks towards the Player
         gnomo_move_and_attack(player1,gnome,position_xy_human,position_xy_gnomo)
         #Player grabs the items

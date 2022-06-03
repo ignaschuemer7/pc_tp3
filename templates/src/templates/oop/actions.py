@@ -3,20 +3,11 @@ from typing import Tuple, Union
 
 from human import Human
 import player
-import mapping
 import random
-import items
+
 
 
 numeric = Union[int, float]
-
-
-def clip(value: numeric, minimum: numeric, maximum: numeric) -> numeric:
-    if value < minimum:
-        return minimum
-    if value > maximum:
-        return maximum
-    return value
     
 def is_in_dungeon(xy:tuple) -> bool:
     '''
@@ -118,7 +109,7 @@ def move_right(positionxy: tuple) -> tuple:
     positionxy=(positionxy[0]+1,positionxy[1])
     return positionxy
 
-def move_gnomo(position_xy_gnomo: tuple,dungeon) -> tuple:
+def move_gnomo(position_xy_gnomo: tuple,dungeon,pickaxe,amulet,sword) -> tuple:
     
     while True:
 
@@ -127,7 +118,10 @@ def move_gnomo(position_xy_gnomo: tuple,dungeon) -> tuple:
             position_xy_gnomo=random.choice([move_up(position_xy_gnomo),move_down(position_xy_gnomo),
             move_right(position_xy_gnomo),move_left(position_xy_gnomo)])
 
-            if is_in_dungeon(position_xy_gnomo) and dungeon.is_walkable(position_xy_gnomo):
+            if (is_in_dungeon(position_xy_gnomo) and dungeon.is_walkable(position_xy_gnomo) 
+                and position_xy_gnomo!=pickaxe.loc()
+                and position_xy_gnomo!=amulet.loc()
+                and position_xy_gnomo!=sword.loc()):
                 break
             #if it can't move to either side, it will cut the loop
             if (not dungeon.is_walkable(move_up(position_xy_gnomo)) 

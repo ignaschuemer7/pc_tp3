@@ -1,16 +1,15 @@
 
 from re import X
-import time
 import mapping
 
 
-import random
+
 from human import Human
 from gnomo import Gnomo
 import items
 from actions import *
 import msvcrt
-import player
+
 
 
 
@@ -31,13 +30,13 @@ def choose_caracter():
 if __name__ == "__main__":
     # initial parameters
     dungeon = mapping.Dungeon(ROWS, COLUMNS, 3)
+    turns = 0
     player1 = Human('gordo', dungeon.find_free_tile() ,'@',300)
     # initial locations may be random generated
     gnomo1 = Gnomo('gnomo', dungeon.find_free_tile() ,'G',50)
     gnomo2 = Gnomo('gnomo', dungeon.find_free_tile() ,'Ĝ',100)
     gnomo3 = Gnomo('gnomo', dungeon.find_free_tile() ,'ğ',200)
     # Agregarle cosas al dungeon, cosas que no se creen automáticamente al crearlo (por ejemplo, ya se crearon las escaleras).
-    turns = 0
     pickaxe=items.PickAxe("pickacke",dungeon.find_free_tile())
     sword=items.Sword("sword",dungeon.find_free_tile())
     amulet=items.Amulet("amulet",dungeon.find_free_tile())
@@ -47,14 +46,16 @@ if __name__ == "__main__":
     dungeon.add_item(amulet, amulet.loc(),3)
     
     while dungeon.level >= 0:
-        
-        #if gnomo3.face=='%' and len(mapping.items)==2:
-         #   dungeon.add_item(amulet, amulet.loc(),3)
-        #nivel 0, 1 gnomo, nivel 1, 2 gnomos y nivel 3, 3 gnomos
-
+        '''
+        print(len(dungeon.has_items()))
+        #si el jugador no mata el ultimo gnomo, no obtendra el tesoro
+        if gnomo3.face=='%' and len(dungeon.has_items())<=2:
+            dungeon.add_item(amulet, amulet.loc(),3)
+        '''
         turns += 1
 
         #mostrar valores en pantalla
+
         print('Level:',dungeon.level, str(player1))
 
         #segun el nivel, cada gnomo
@@ -77,6 +78,7 @@ if __name__ == "__main__":
 
         #movimiento y ataques
         key = msvcrt.getch().decode('UTF-8')
+        
         if key=="w":
             position_xy_human=move_up(position_xy_human)
         elif key=="s":
@@ -96,8 +98,8 @@ if __name__ == "__main__":
             #ataque del jugador al gnomo
             attack(player1, gnome)
 
+        #actualizamos posicion
         position_xy_human=player1.loc()
-        
         position_xy_gnomo=move_gnomo(gnome.loc(),dungeon)
 
         if position_xy_gnomo!=position_xy_human and gnome.alive:
@@ -107,12 +109,11 @@ if __name__ == "__main__":
             #ataque del gnomo hacia el jugador
             attack(gnome, player1)
     
-        #condiciones si el juegador agarra los items
+        #condiciones si el jugador agarra los items
         dungeon.get_items(player1.loc())
 
         if player1.loc()==pickaxe.loc() and dungeon.level==0:
             player1.tool=True
-        
         
         if player1.loc()==sword.loc() and dungeon.level==1:
             player1.has_sword()
@@ -126,7 +127,6 @@ if __name__ == "__main__":
         elif dungeon.loc(player1.loc()).face =='>':
             dungeon.level+=1
 
-
         #si se muere el jugador, termina el juego
         if player1.hp<=0:
             player1.kill()
@@ -137,31 +137,11 @@ if __name__ == "__main__":
         if gnome.hp<=0:
             gnome.kill()
             gnome.face='%'
-        
 
-
-
-            
-
-        
-        
-        
-        
-        
-        
+    # Salió del loop principal, termina el juego
     if player1.treasure and player1.alive:
         print("You Win!!")
     else:
         print("You Lose..Try again!")
-        
-        
-        
-
-        
-
-        
-        
-        
-        
-
-    # Salió del loop principal, termina el juego
+   
+    

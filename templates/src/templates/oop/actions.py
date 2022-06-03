@@ -25,10 +25,9 @@ def is_in_dungeon(xy):
 
 
 def attack(do_damage, recive_damage):
-    
     generate_damage=do_damage.damage()
     recive_damage.recive_damage(generate_damage)
-    print(generate_damage,recive_damage.hp)
+    
     
     
 
@@ -65,6 +64,12 @@ def move_gnomo(position_xy_gnomo,dungeon):
             move_right(position_xy_gnomo),move_left(position_xy_gnomo)])
 
             if is_in_dungeon(position_xy_gnomo) and dungeon.is_walkable(position_xy_gnomo):
+                break
+            #si no se puede mover para niguno de los lados, cortara el while
+            if (not dungeon.is_walkable(move_up(position_xy_gnomo)) 
+            and not dungeon.is_walkable(move_down(position_xy_gnomo)) 
+            and not dungeon.is_walkable(move_right(position_xy_gnomo)) 
+            and not dungeon.is_walkable(move_left(position_xy_gnomo))):
                 break
             position_xy_gnomo=old_position
             

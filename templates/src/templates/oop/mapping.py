@@ -180,6 +180,13 @@ class Level:
         if self.tiles[i][j] is WALL:
             self.tiles[i][j] = AIR
 
+
+    '''
+    def has_items(self):
+        return self.items
+    '''   
+
+    
     def is_free(self, xy: Location) -> bool:
         """Check if a given location is free of other entities."""
         # completar
@@ -192,6 +199,7 @@ class Level:
         """Return a sequence of locations between initial location and end location, if it exits."""
         # completar
         raise NotImplementedError
+    
 
 
 class Dungeon:
@@ -267,6 +275,14 @@ class Dungeon:
     def get_items(self, xy: Location) -> list[items.Item]:
         """Get a list of all items at a given location. Removes the items from that location. See Level.get_items()."""
         return self.dungeon[self.level].get_items(xy)
+    
+    
+    '''
+    def has_items(self):
+        return self.dungeon.has_items()
+    '''
+
+
 
     def dig(self, xy: Location) -> None:
         """Replace a WALL at the given location, by AIR. See Level.dig()."""

@@ -32,8 +32,10 @@ def attack(do_damage, recive_damage):
     '''
     
     '''
+    
     generate_damage=do_damage.damage()
     recive_damage.recive_damage(generate_damage)
+    print(generate_damage)
     
 def move_to(player: player.Player, location: tuple[numeric, numeric]):
     player.move_to(location)
@@ -118,19 +120,22 @@ def move_gnomo(position_xy_gnomo: tuple,dungeon,pickaxe,amulet,sword) -> tuple:
             position_xy_gnomo=random.choice([move_up(position_xy_gnomo),move_down(position_xy_gnomo),
             move_right(position_xy_gnomo),move_left(position_xy_gnomo)])
 
-            if (is_in_dungeon(position_xy_gnomo) and dungeon.is_walkable(position_xy_gnomo) 
+            if (is_in_dungeon(position_xy_gnomo) 
+                and dungeon.is_walkable(position_xy_gnomo) 
                 and position_xy_gnomo!=pickaxe.loc()
                 and position_xy_gnomo!=amulet.loc()
                 and position_xy_gnomo!=sword.loc()):
                 break
             #if it can't move to either side, it will cut the loop
-            if (not dungeon.is_walkable(move_up(position_xy_gnomo)) 
-            and not dungeon.is_walkable(move_down(position_xy_gnomo)) 
-            and not dungeon.is_walkable(move_right(position_xy_gnomo)) 
-            and not dungeon.is_walkable(move_left(position_xy_gnomo))):
+            elif (not dungeon.is_walkable(move_up(position_xy_gnomo)) 
+                and not dungeon.is_walkable(move_down(position_xy_gnomo)) 
+                and not dungeon.is_walkable(move_right(position_xy_gnomo)) 
+                and not dungeon.is_walkable(move_left(position_xy_gnomo))):
                 position_xy_gnomo=old_position
                 break
-            position_xy_gnomo=old_position
+            else:
+                position_xy_gnomo=old_position
+                continue
             
     return position_xy_gnomo
 
@@ -234,3 +239,13 @@ def select_gnome(level,gnomo1,gnomo2,gnomo3):
     if level == 2:
         gnome=gnomo3
     return gnome
+
+def gnomo_unlocks(dungeon,gnome,player1,amulet,sword):
+    if gnomo_is_dead(gnome) and dungeon.level==0:
+            gnome.face='%'
+    if gnomo_is_dead(gnome) and player1.treasure==False and dungeon.level==2:
+        gnome.face='%'
+        dungeon.add_item(amulet, amulet.loc(),3)
+    if gnomo_is_dead(gnome) and player1.weapon==False and dungeon.level==1:
+        gnome.face='%'
+        dungeon.add_item(sword, sword.loc(),2)

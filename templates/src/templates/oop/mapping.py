@@ -291,37 +291,36 @@ class Dungeon:
     def is_free(self, xy: Location) -> bool:
         """NOT IMPLEMENTED. Check if a given location is free of other entities. See Level.is_free()."""
         return self.dungeon[self.level].is_free(xy)
-
+    '''
     def are_connected(self,initial: Location, end: Location, check_spaces=[]) -> bool:
         sys.setrecursionlimit(10000)
         """Check if there is walkable path between initial location and end location."""
         up,down=actions.move_up(initial),actions.move_down(initial)
         left,right=actions.move_left(initial),actions.move_right(initial)
-       
-        if self.is_walkable(up) and actions.is_in_dungeon(up):
-            if up==end:
-                return True 
-            elif up not in check_spaces:
-                check_spaces.append(up)
-                return self.are_connected(up,end,check_spaces)
-        if self.is_walkable(down) and actions.is_in_dungeon(down):
-            if down==end:
-                return True 
-            elif down not in check_spaces:
-                check_spaces.append(down)
-                return self.are_connected(down,end,check_spaces)
-        if self.is_walkable(left) and actions.is_in_dungeon(left):
+
+        if self.is_walkable(left) and actions.is_in_dungeon(left) and left not in check_spaces:
             if left==end:
                 return True 
-            elif left not in check_spaces:
-                check_spaces.append(left)
-                return self.are_connected(left,end,check_spaces)
-        if self.is_walkable(right) and actions.is_in_dungeon(right):
-            if right==end:
+            check_spaces.append(left)
+            return self.are_connected(left,end,check_spaces)
+        if self.is_walkable(right) and actions.is_in_dungeon(right) and right not in check_spaces:
+            if right==end or end in check_spaces:
                 return True 
-            elif right not in check_spaces:
-                check_spaces.append(right)
-                return self.are_connected(right,end,check_spaces)
+            
+            check_spaces.append(right)
+            return self.are_connected(right,end,check_spaces)
+            
+        if self.is_walkable(up) and actions.is_in_dungeon(up) and up not in check_spaces:
+            if up==end or end in check_spaces:
+                return True 
+            check_spaces.append(up)
+            return self.are_connected(up,end,check_spaces)
+        if self.is_walkable(down) and actions.is_in_dungeon(down) and down not in check_spaces:
+            if down==end or end in check_spaces:
+                return True 
+            check_spaces.append(down)
+            return self.are_connected(down,end,check_spaces)
         
         print(check_spaces)
         return False
+    '''

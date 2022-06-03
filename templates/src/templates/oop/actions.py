@@ -3,9 +3,9 @@ from typing import Union
 
 from human import Human
 import player
-import gnomo
+import mapping
 import random
-import game
+import items
 
 
 numeric = Union[int, float]
@@ -28,10 +28,6 @@ def attack(do_damage, recive_damage):
     generate_damage=do_damage.damage()
     recive_damage.recive_damage(generate_damage)
     
-    
-    
-
-
 def move_to(player: player.Player, location: tuple[numeric, numeric]):
     player.move_to(location)
     return player
@@ -70,22 +66,80 @@ def move_gnomo(position_xy_gnomo,dungeon):
             and not dungeon.is_walkable(move_down(position_xy_gnomo)) 
             and not dungeon.is_walkable(move_right(position_xy_gnomo)) 
             and not dungeon.is_walkable(move_left(position_xy_gnomo))):
+                position_xy_gnomo=old_position
                 break
             position_xy_gnomo=old_position
             
     return position_xy_gnomo
 
 
-#def climb_stair(dungeon: mapping.Dungeon, player: player.Player):
-    # completar
-   # raise NotImplementedError
+def climb_stair(dungeon):
+    dungeon.level-=1
 
+def descend_stair(dungeon):
+    dungeon.level+=1
 
-#def descend_stair(dungeon: mapping.Dungeon, player: player.Player):#
-    # completar
-   # raise NotImplementedError
+def stairs(dungeon,player1):
+    if dungeon.loc(player1.loc()).face =='<':
+            climb_stair(dungeon)
+    elif dungeon.loc(player1.loc()).face =='>':
+            descend_stair(dungeon)
 
+def pickup(dungeon,player1,pickaxe,sword,amulet):
+    dungeon.get_items(player1.loc())
+    if player1.loc()==pickaxe.loc() and dungeon.level==0:
+            player1.tool=True
+    elif player1.loc()==sword.loc() and dungeon.level==1:
+            player1.has_sword()
+    elif player1.loc()==amulet.loc() and dungeon.level==2:
+            player1.treasure=True
 
-#def pickup(dungeon: mapping.Dungeon , player: player.Player):
-##    Human.tool=True
-  #  return Human
+def human_is_dead(player1):
+    if player1.hp<=0:
+        player1.kill()
+    if not player1.alive:
+        return True
+    return False
+def gnomo_is_dead(gnome):
+    if gnome.hp<=0:
+            gnome.kill()
+            return True
+    return False
+
+def player_movements(key,position_xy_human):
+    if key=="w":
+        position_xy_human=move_up(position_xy_human)
+    elif key=="s":
+        position_xy_human=move_down(position_xy_human)
+    elif key=="d":
+        position_xy_human=move_right(position_xy_human)
+    elif key=="a":
+        position_xy_human=move_left(position_xy_human)
+    return position_xy_human
+
+def gnomo_move_and_attack(player1,gnome,position_xy_human,position_xy_gnomo):
+    if position_xy_gnomo!=position_xy_human and gnome.alive:
+        gnome.move_to(position_xy_gnomo)
+    elif gnome.alive:
+        #ataque del gnomo hacia el jugador
+        attack(gnome, player1)
+
+def player_move_and_attack(dungeon,player1,gnome,position_xy_human,position_xy_gnomo):
+    if is_in_dungeon(position_xy_human) and position_xy_human!=position_xy_gnomo:
+        if dungeon.is_walkable(position_xy_human) :
+            player1=move_to(player1,position_xy_human)
+        elif player1.tool:
+            dungeon.dig(position_xy_human)
+            player1=move_to(player1,position_xy_human)
+    elif is_in_dungeon(position_xy_human) and dungeon.is_walkable(position_xy_human):
+        #ataque del jugador al gnomo
+        attack(player1, gnome)
+        
+def select_gnome(level,gnomo1,gnomo2,gnomo3):
+    if level == 0:
+        gnome=gnomo1
+    if level == 1:
+        gnome=gnomo2
+    if level == 2:
+        gnome=gnomo3
+    return gnome

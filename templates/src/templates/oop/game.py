@@ -31,15 +31,13 @@ def choose_caracter():
 if __name__ == "__main__":
     # initial parameters
     dungeon = mapping.Dungeon(ROWS, COLUMNS, 3)
-    level = 0
-    player1 = Human('gordo', dungeon.find_free_tile() ,'@',450)
+    player1 = Human('gordo', dungeon.find_free_tile() ,'@',300)
     # initial locations may be random generated
     gnomo1 = Gnomo('gnomo', dungeon.find_free_tile() ,'G',50)
     gnomo2 = Gnomo('gnomo', dungeon.find_free_tile() ,'Ĝ',100)
     gnomo3 = Gnomo('gnomo', dungeon.find_free_tile() ,'ğ',200)
     # Agregarle cosas al dungeon, cosas que no se creen automáticamente al crearlo (por ejemplo, ya se crearon las escaleras).
     turns = 0
-
     pickaxe=items.PickAxe("pickacke",dungeon.find_free_tile())
     sword=items.Sword("sword",dungeon.find_free_tile())
     amulet=items.Amulet("amulet",dungeon.find_free_tile())
@@ -50,6 +48,8 @@ if __name__ == "__main__":
     
     while dungeon.level >= 0:
         
+        #if gnomo3.face=='%' and len(mapping.items)==2:
+         #   dungeon.add_item(amulet, amulet.loc(),3)
         #nivel 0, 1 gnomo, nivel 1, 2 gnomos y nivel 3, 3 gnomos
 
         turns += 1
@@ -65,10 +65,11 @@ if __name__ == "__main__":
             gnome=gnomo2
         if dungeon.level == 2:
             gnome=gnomo3
+
         dungeon.render(player1,gnome)
 
-        
-        #print(mapping.Level.are_connected(dungeon,player1.loc(), pickaxe.loc()))
+        #print('-----',player1.loc(),pickaxe.loc(),'------')
+        #print(dungeon.are_connected(player1.loc(), pickaxe.loc()))
         
         #posiciones de los jugadores
         position_xy_gnomo=gnome.loc()
@@ -93,7 +94,7 @@ if __name__ == "__main__":
                 player1=move_to(player1,position_xy_human)
         elif is_in_dungeon(position_xy_human) and dungeon.is_walkable(position_xy_human):
             #ataque del jugador al gnomo
-            attack(dungeon, player1, gnome)
+            attack(player1, gnome)
 
         position_xy_human=player1.loc()
         
@@ -103,19 +104,20 @@ if __name__ == "__main__":
             gnome.move_to(position_xy_gnomo)
 
         elif gnome.alive:
-            #ataque del momo hacia el jugador
-            attack(dungeon, gnome, player1)
+            #ataque del gnomo hacia el jugador
+            attack(gnome, player1)
     
         #condiciones si el juegador agarra los items
         dungeon.get_items(player1.loc())
 
-        if player1.loc()==pickaxe.loc():
+        if player1.loc()==pickaxe.loc() and dungeon.level==0:
             player1.tool=True
         
-        if player1.loc()==sword.loc():
-            player1.has_sword=True
         
-        if player1.loc()==amulet.loc():
+        if player1.loc()==sword.loc() and dungeon.level==1:
+            player1.has_sword()
+        
+        if player1.loc()==amulet.loc() and dungeon.level==2:
             player1.treasure=True
 
         #escaleras
@@ -135,7 +137,8 @@ if __name__ == "__main__":
         if gnome.hp<=0:
             gnome.kill()
             gnome.face='%'
-        #desaparecer el gnomo
+        
+
 
 
             

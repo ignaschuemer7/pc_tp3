@@ -15,8 +15,8 @@ class Player:
         self.x, self.y = xy
         
     def recive_damage(self,damage):
-        self.hp=self.hp-damage
-        return self
+        self.hp = self.hp - damage
+        
 
     def __repr__(self):
         return f"Player('{self.name}', '{self.loc()}', '{self.hp}')"

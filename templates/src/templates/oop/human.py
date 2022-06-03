@@ -16,9 +16,8 @@ class Human(Player):
 
     def has_sword(self)->bool:
         self.weapon=True
-        return self
 
     def __str__(self):
         
-        return f"|Player: {self.name} |HP: {self.hp} |PickAxe: {self.tool} |Sword: {self.treasure} |Treasure: {self.treasure}"
+        return f"|Player: {self.name} |HP: {self.hp} |PickAxe: {self.tool} |Sword: {self.weapon} |Treasure: {self.treasure}"
 

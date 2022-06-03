@@ -24,9 +24,11 @@ def is_in_dungeon(xy):
     return False
 
 
-def attack(dungeon, do_damage: player.Player, recive_damage: player.Player):
+def attack(do_damage, recive_damage):
+    
     generate_damage=do_damage.damage()
-    recive_damage=recive_damage.recive_damage(generate_damage)
+    recive_damage.recive_damage(generate_damage)
+    print(generate_damage,recive_damage.hp)
     
     
 

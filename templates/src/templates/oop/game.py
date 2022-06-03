@@ -8,24 +8,12 @@ import msvcrt
 
 ROWS = 25
 COLUMNS = 80
-'''
-def init_game():
-    dungeon = Dungeon(ROWS,COLUMNS, 3)
-    character = choose_character()
-    return dungeon,character
-
-def choose_caracter():
-    print("select yor cacarcter")
-    print("1_Barbarian")
-
-    choice = input("input the choice")
-'''
-if __name__ == "__main__":
+def game(name):
     #Initial parameters
     dungeon = mapping.Dungeon(ROWS, COLUMNS, 3)
     turns = 0
     #Caracter
-    player1 = Human('player', dungeon.find_free_tile() ,'@',300)
+    player1 = Human(name, dungeon.find_free_tile() ,'@',300)
     #Gnomos
     gnomo1 = Gnomo('gnomo', dungeon.find_free_tile() ,'G',50)
     gnomo2 = Gnomo('gnomo', dungeon.find_free_tile() ,'Ĝ',100)
@@ -54,7 +42,6 @@ if __name__ == "__main__":
         #Render all the game
         dungeon.render(player1,gnome)
 
-        print(player1.loc(),pickaxe.loc())
         #print(dungeon.are_connected(player1.loc(), pickaxe.loc()))
         
         #posiciones de los jugadores
@@ -87,5 +74,5 @@ if __name__ == "__main__":
         print("You Win!!")
     else:
         print("You Lose..Try again!")
-   
+
     

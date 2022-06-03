@@ -8,7 +8,7 @@ import player
 import items
 from gnomo import Gnomo
 from human import Human
-from game import Gnomo
+#from game import Gnomo
 import sys
 
 Location = Tuple[int, int]
@@ -325,7 +325,7 @@ class Dungeon:
     def is_free(self, xy: Location) -> bool:
         """NOT IMPLEMENTED. Check if a given location is free of other entities. See Level.is_free()."""
         return self.dungeon[self.level].is_free(xy)
-    '''
+    
     def are_connected(self,initial: Location, end: Location, check_spaces=[]) -> bool:
         sys.setrecursionlimit(10000)
         """Check if there is walkable path between initial location and end location."""
@@ -340,7 +340,6 @@ class Dungeon:
         if self.is_walkable(right) and actions.is_in_dungeon(right) and right not in check_spaces:
             if right==end or end in check_spaces:
                 return True 
-            
             check_spaces.append(right)
             return self.are_connected(right,end,check_spaces)
             
@@ -357,4 +356,4 @@ class Dungeon:
         
         print(check_spaces)
         return False
-    '''
+    

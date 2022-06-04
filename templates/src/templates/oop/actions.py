@@ -35,7 +35,6 @@ def attack(do_damage, recive_damage):
     
     generate_damage=do_damage.damage()
     recive_damage.recive_damage(generate_damage)
-    print(generate_damage)
     
 def move_to(player: player.Player, location: tuple[numeric, numeric]):
     player.move_to(location)
@@ -111,14 +110,27 @@ def move_right(positionxy: tuple) -> tuple:
     positionxy=(positionxy[0]+1,positionxy[1])
     return positionxy
 
-def move_gnomo(position_xy_gnomo: tuple,dungeon,pickaxe,amulet,sword) -> tuple:
+def move_gnomo(position_xy_gnomo: tuple,position_xy_human: tuple,dungeon,pickaxe,amulet,sword,movements=[]) -> tuple:
     
     while True:
 
             old_position=position_xy_gnomo
 
-            position_xy_gnomo=random.choice([move_up(position_xy_gnomo),move_down(position_xy_gnomo),
-            move_right(position_xy_gnomo),move_left(position_xy_gnomo)])
+            if position_xy_human[0]>position_xy_gnomo[0] and 'right' not in movements:
+                position_xy_gnomo=move_right(position_xy_gnomo)
+                movements.append('right')
+            elif position_xy_human[0]<position_xy_gnomo[0] and 'left' not in movements:
+                position_xy_gnomo=move_left(position_xy_gnomo)
+                movements.append('left')  
+            elif position_xy_human[1]>position_xy_gnomo[1] and 'down' not in movements:
+                position_xy_gnomo=move_down(position_xy_gnomo)
+                movements.append('down')
+            elif position_xy_human[1]<position_xy_gnomo[1] and 'up' not in movements:
+                position_xy_gnomo=move_up(position_xy_gnomo)
+                movements.append('up')  
+            else:
+                position_xy_gnomo=random.choice([move_up(position_xy_gnomo),
+                move_down(position_xy_gnomo),move_right(position_xy_gnomo),move_left(position_xy_gnomo)])
 
             if (is_in_dungeon(position_xy_gnomo) 
                 and dungeon.is_walkable(position_xy_gnomo) 
@@ -133,19 +145,15 @@ def move_gnomo(position_xy_gnomo: tuple,dungeon,pickaxe,amulet,sword) -> tuple:
                 and not dungeon.is_walkable(move_left(position_xy_gnomo))):
                 position_xy_gnomo=old_position
                 break
-            else:
-                position_xy_gnomo=old_position
-                continue
-            
+            position_xy_gnomo=old_position      
     return position_xy_gnomo
-
-
 def climb_stair(dungeon):
     '''
     Produces a change to the previous dungeon when the player climbs the stairs.
 
     '''
     dungeon.level-=1
+    
 
 def descend_stair(dungeon):
     '''
@@ -153,6 +161,8 @@ def descend_stair(dungeon):
 
     '''
     dungeon.level+=1
+
+    
 
 def stairs(dungeon,player1):
     '''

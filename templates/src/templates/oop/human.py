@@ -3,7 +3,7 @@ from player import Player
 
 
 class Human(Player):
-    def __init__(self, name, xy,face='@',hit_points=50):
+    def __init__(self, name, xy,face='@',hit_points=300):
         super().__init__(name, xy, face ,hit_points=hit_points)
         self.weapon = False
         self.treasure = False

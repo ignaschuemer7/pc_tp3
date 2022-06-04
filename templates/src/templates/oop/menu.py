@@ -23,8 +23,8 @@ def main():
         else:
             break
 def name_player():
-    name=input("Put your name: ")
-    game.game(name)
+    name_player1=input("Put your name: ")
+    game.game(name_player1)
     
 if __name__=='__main__':
     main()

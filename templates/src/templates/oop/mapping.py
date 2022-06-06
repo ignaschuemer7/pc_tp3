@@ -57,7 +57,7 @@ class Level:
         Initializes a dungeon level class.
         
         '''
-        tiles = [[1] * 12 + [0] * (columns - 24) + [1] * 12]  # 0=air 1=rocks
+        tiles = [[1] * 12 + [0] * (columns - 24) + [1] * 12]  #0=air 1=rocks
         for row in range(1, rows):
             local = tiles[row - 1][:]
             for i in range(2, columns - 2):
@@ -212,7 +212,8 @@ class Level:
 
 
 class Dungeon:
-    """Dungeon(rows: int, columns: int, levels: int = 3) -> Dungeon
+    """
+    Dungeon(rows: int, columns: int, levels: int = 3) -> Dungeon
 
     Arguments
 
@@ -221,6 +222,7 @@ class Dungeon:
     levels (int) -- is the number of levels for the dungeon (default: 3).
 
     Returns an instance of a dungeon.
+   
     """
     def __init__(self, rows: int, columns: int, levels: int = 3):
         """
@@ -253,18 +255,25 @@ class Dungeon:
         self.dungeon[self.level].render(player,gnomo)
 
     def find_free_tile(self) -> Location:
-        """Randomly searches for a free location inside the level's map.
+        """
+        Randomly searches for a free location inside the level's map.
         This method might never end.
+
         """
         return self.dungeon[self.level].find_free_tile()
 
     def is_walkable(self, location: Location)->bool:
-        """Check if a player can walk through a given location. See Level.is_walkable()."""
+        """
+        Check if a player can walk through a given location.
+
+        """
         return self.dungeon[self.level].is_walkable(location)
 
     def add_item(self, item: items.Item,xy: Optional[Location] = None, level: Optional[int] = None ):
-        """Add an item to a given location in the map of a given or current level. If no location is given, one free
+        """
+        Add an item to a given location in the map of a given or current level. If no location is given, one free
         space is randomly searched. This method might never if the probability of finding a free space is low.
+       
         """
         if level is None:
             level = self.level + 1
@@ -272,28 +281,42 @@ class Dungeon:
             self.dungeon[level - 1].add_item(item, xy)
 
     def loc(self, xy: Location) -> Tile:
-        """Get the tile type at a give location."""
+        """
+        Get the tile type at a give location.
+        
+        """
         return self.dungeon[self.level].loc(xy)
 
     def index(self, tile: Tile) -> Location:
-        """Get the location of a given tile in the map. If there are multiple tiles of that type, then only one is
+        """
+        Get the location of a given tile in the map. If there are multiple tiles of that type, then only one is
         returned. See Level.index().
+       
         """
         return self.dungeon[self.level].index(tile)
 
     def get_items(self, xy: Location) -> list[items.Item]:
-        """Get a list of all items at a given location. Removes the items from that location. See Level.get_items()."""
+        """
+        Get a list of all items at a given location. Removes the items from that location.
+       
+        """
         return self.dungeon[self.level].get_items(xy)
 
     def dig(self, xy: Location) -> None:
-        """Replace a WALL at the given location, by AIR. See Level.dig()."""
+        """
+        Replace a WALL at the given location, by AIR.
+        
+        """
         return self.dungeon[self.level].dig(xy)
 
 
     def are_connected(self,initial: Location, end: Location, check_spaces=[]) -> bool:
         
         sys.setrecursionlimit(5000)
-        """Check if there is walkable path between initial location and end location."""
+        """
+        Check if there is walkable path between initial location and end location.
+        
+        """
         if initial==end:
             return True 
 

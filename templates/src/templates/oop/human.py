@@ -3,11 +3,11 @@ from player import Player
 
 
 class Human(Player):
-    def __init__(self, name, xy,face='@',hit_points=300):
+    def __init__(self, name, xy,face='@',hit_points=500):
         super().__init__(name, xy, face ,hit_points=hit_points)
         self.weapon = False
         self.treasure = False
-        self.tool = False #seria el pico. si lo tiene o no
+        self.tool = False 
 
     def damage(self):
         if self.weapon:
@@ -18,6 +18,5 @@ class Human(Player):
         self.weapon=True
 
     def __str__(self):
-        
         return f"|Player: {self.name} |HP: {self.hp} |PickAxe: {self.tool} |Sword: {self.weapon} |Treasure: {self.treasure}"
 

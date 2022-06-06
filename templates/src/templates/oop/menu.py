@@ -23,8 +23,15 @@ def main():
         else:
             break
 def name_player():
-    name_player1=input("Put your name: ")
-    game.game(name_player1)
+    while True:
+        try:
+            name=input("Put your name: ")
+            if len(name) > 10:
+                raise ValueError
+            break
+        except ValueError:
+            print("Oops! The name you chose is too long. Try a shorter one.")
+    game.game(name)
     
 if __name__=='__main__':
     main()

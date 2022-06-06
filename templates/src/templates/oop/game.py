@@ -6,9 +6,14 @@ import items
 from actions import *
 import msvcrt
 
+from mapping import Level
+
 ROWS = 25
 COLUMNS = 80
 def game(name_player1):
+    '''
+    
+    '''
     #Initial parameters
     turns = 0
     #You need that the pickaxe and the human be conected
@@ -19,9 +24,9 @@ def game(name_player1):
             if dungeon.are_connected(player1.loc(), pickaxe.loc(),[]):
                 break
     #Gnomos
-    gnomo1 = kobold('kobold_gnomo', dungeon.find_free_tile())
-    gnomo2 = knoker('knoker_gnomo', dungeon.find_free_tile())
-    gnomo3 = spriggan('spriggan_gnomo', dungeon.find_free_tile())
+    gnomo1 = kobold('Kobold', dungeon.find_free_tile())
+    gnomo2 = knoker('Knoker', dungeon.find_free_tile())
+    gnomo3 = spriggan('Spriggan', dungeon.find_free_tile())
     #Items
     
     sword=items.Sword("sword",dungeon.find_free_tile())
@@ -36,9 +41,16 @@ def game(name_player1):
         #If the Gnome dies, it face changes (representing its corpse) and some items will apear.
         gnomo_unlocks(dungeon,gnome,player1,amulet,sword)
         #Game interface
-        print('Level:',dungeon.level, str(player1))
+        print('\nLevel:',dungeon.level, str(player1))
         #Render all the game
         dungeon.render(player1,gnome)
+         #Game interface
+        if dungeon.level==0:
+            print(str(gnomo1))
+        elif dungeon.level==1:
+            print(str(gnomo2))
+        else:
+            print(str(gnomo3))
         #posiciones de los jugadores
         position_xy_gnomo=gnome.loc()
         position_xy_human=player1.loc()
@@ -61,11 +73,10 @@ def game(name_player1):
         if human_is_dead(player1):
             break
         turns += 1
-        
     #Out of the principal loop. The game ends 
     if player1.treasure and player1.alive:
-        print("You Win!!")
+        print("\nYou Win!!")
     else:
-        print("You Lose..Try again!")
+        print("\nYou Lose..Try again!")
 
     

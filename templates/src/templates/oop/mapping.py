@@ -8,7 +8,6 @@ import player
 import items
 from gnomo import Gnomo
 from human import Human
-#from game import Gnomo
 import sys
 
 Location = Tuple[int, int]

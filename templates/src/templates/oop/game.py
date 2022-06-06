@@ -44,13 +44,8 @@ def game(name_player1):
         print('\nLevel:',dungeon.level, str(player1))
         #Render all the game
         dungeon.render(player1,gnome)
-         #Game interface
-        if dungeon.level==0:
-            print(str(gnomo1))
-        elif dungeon.level==1:
-            print(str(gnomo2))
-        else:
-            print(str(gnomo3))
+        #Game interface
+        print(str(gnome))
         #posiciones de los jugadores
         position_xy_gnomo=gnome.loc()
         position_xy_human=player1.loc()

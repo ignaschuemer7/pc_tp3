@@ -3,6 +3,7 @@ from typing import Tuple, Union
 from human import Human
 import player
 import random
+import mapping
 
 numeric = Union[int, float]
     
@@ -134,7 +135,8 @@ def move_gnomo(position_xy_gnomo: tuple,position_xy_human: tuple,dungeon:classna
         New positionxy
 
     '''
-    while True:
+    i=0
+    while i<6:
 
             old_position=position_xy_gnomo
 
@@ -158,10 +160,9 @@ def move_gnomo(position_xy_gnomo: tuple,position_xy_human: tuple,dungeon:classna
                 and dungeon.is_walkable(position_xy_gnomo) 
                 and position_xy_gnomo!=pickaxe.loc()
                 and position_xy_gnomo!=amulet.loc()
-                and position_xy_gnomo!=sword.loc()):
-
-                #and dungeon.loc(position_xy_gnomo).face !='<'
-                #and dungeon.loc(position_xy_gnomo).face !='>'):
+                and position_xy_gnomo!=sword.loc()
+                and dungeon.loc(position_xy_gnomo).face !='<'
+                and dungeon.loc(position_xy_gnomo).face !='>'):
                 break
             #if it can't move to either side, it will cut the loop
             elif (not dungeon.is_walkable(move_up(position_xy_gnomo)) 
@@ -170,11 +171,12 @@ def move_gnomo(position_xy_gnomo: tuple,position_xy_human: tuple,dungeon:classna
                 and not dungeon.is_walkable(move_left(position_xy_gnomo))):
                 position_xy_gnomo=old_position
                 break
+            i+=1
             position_xy_gnomo=old_position      
     return position_xy_gnomo
 
 
-def climb_stair(dungeon:classname):
+def climb_stair(dungeon:classname,player1):
     '''
     Produces a change to the previous dungeon when the player climbs the stairs.
     
@@ -185,9 +187,21 @@ def climb_stair(dungeon:classname):
 
     '''
     dungeon.level-=1
+
+    if dungeon.level>=0:
+        space_left=(dungeon.index(mapping.STAIR_DOWN)[0]-1,dungeon.index(mapping.STAIR_DOWN)[1])
+        space_right=(dungeon.index(mapping.STAIR_DOWN)[0]+1,dungeon.index(mapping.STAIR_DOWN)[1])
+        if is_in_dungeon(space_right):
+            dungeon.dig(space_right)
+            player1.move_to(space_right)
+        else:
+            dungeon.dig(space_left)
+            player1.move_to(space_left)
+
+
     
 
-def descend_stair(dungeon:classname):
+def descend_stair(dungeon:classname,player1):
     '''
     Produces a change to the next dungeon when the player climbs the stairs.
 
@@ -198,6 +212,17 @@ def descend_stair(dungeon:classname):
 
     '''
     dungeon.level+=1
+
+    space_left=(dungeon.index(mapping.STAIR_UP)[0]-1,dungeon.index(mapping.STAIR_UP)[1])
+    space_right=(dungeon.index(mapping.STAIR_UP)[0]+1,dungeon.index(mapping.STAIR_UP)[1])
+    
+    if is_in_dungeon(space_left):
+        dungeon.dig(space_left)
+        player1.move_to(space_left)
+    else:
+        dungeon.dig(space_right)
+        player1.move_to(space_right)
+
 
 
 def stairs(dungeon:classname,player1:object):
@@ -214,9 +239,10 @@ def stairs(dungeon:classname,player1:object):
 
     '''
     if dungeon.loc(player1.loc()).face =='<':
-            climb_stair(dungeon)
+            climb_stair(dungeon,player1)
+            
     elif dungeon.loc(player1.loc()).face =='>':
-            descend_stair(dungeon)
+            descend_stair(dungeon,player1)
 
 
 def pickup(dungeon,player1,pickaxe,sword,amulet):

@@ -1,4 +1,5 @@
 from pydoc import classname
+from tkinter import BooleanVar
 from typing import Tuple, Union
 from human import Human
 import player
@@ -43,11 +44,14 @@ def attack(do_damage:object, recive_damage:object):
 
     
 def move_to(player: player.Player, location: tuple[numeric, numeric]) :
+    '''
+    
+    '''
     player.move_to(location)
     return player
 
     
-def move_up(positionxy):
+def move_up(positionxy: tuple) -> tuple:
     '''
     Makes an upward movement.
 
@@ -65,7 +69,7 @@ def move_up(positionxy):
     return positionxy
 
 
-def move_down(positionxy):
+def move_down(positionxy: tuple) -> tuple:
     '''
     Makes a downward movement.
 
@@ -128,10 +132,25 @@ def move_gnomo(position_xy_gnomo: tuple,position_xy_human: tuple,dungeon:classna
     ----------
     position_xy_gnomo : tuple
         Represents the gnomo's position in the dungeon.
+    
+    position_xy_human : tuple
+        Represents the player's position in the dungeon.
+
+    dungeon : class
+        It's where all the information on the map is located. This is updated and saved with each change.
+    
+    player1 : object
+        Represents the player. 
+
+    amulet : object
+        Represents the object amulet.
+
+    sword : object
+        Represents the object sword.
    
     Returns
     -------
-        New positionxy
+        New position_xy_gnomo
 
     '''
     while True:
@@ -206,19 +225,33 @@ def stairs(dungeon:classname,player1:object):
     dungeon : class
         It's where all the information on the map is located. This is updated and saved with each change.
 
-    player : object
-        
+    player1 : object
+         Represents the player.         
 
     '''
     if dungeon.loc(player1.loc()).face =='<':
-            climb_stair(dungeon)
+        climb_stair(dungeon)
     elif dungeon.loc(player1.loc()).face =='>':
-            descend_stair(dungeon)
+        descend_stair(dungeon)
 
 
-def pickup(dungeon,player1,pickaxe,sword,amulet):
+def pickup(dungeon:classname,player1: object,pickaxe: object,sword: object,amulet: object):
     '''
     Determines that the player has collected an item.
+
+    Parameters
+    ----------
+    dungeon : class
+        It's where all the information on the map is located. This is updated and saved with each change.
+    
+    player1 : object
+        Represents the player. 
+
+    sword : object
+        Represents the object sword.
+    
+    amulet : object
+        Represents the object amulet.
 
     '''
     dungeon.get_items(player1.loc())
@@ -230,9 +263,18 @@ def pickup(dungeon,player1,pickaxe,sword,amulet):
             player1.treasure=True
 
 
-def human_is_dead(player1):
+def human_is_dead(player1: object) -> bool:
     '''
     Changes the Player's status to dead when it loses all its HP.
+
+    Parameters
+    ----------
+    player1 : object
+         Represents the player.         
+
+    Returns
+    -------
+        True or False
 
     '''
     if player1.hp<=0:
@@ -242,9 +284,18 @@ def human_is_dead(player1):
     return False
 
 
-def gnomo_is_dead(gnome):
+def gnomo_is_dead(gnome: object) -> bool:
     '''
     Changes the Gnome's status to dead when it loses all its HP.
+
+    Parameters
+    ----------
+    gnome : object
+         Represents the npc Gnomo.         
+
+    Returns
+    -------
+        True or False
 
     '''
     if gnome.hp<=0:
@@ -253,9 +304,21 @@ def gnomo_is_dead(gnome):
     return False
 
 
-def player_movements(key,position_xy_human):
+def player_movements(key: str,position_xy_human: tuple) -> tuple:
     '''
     Allows the player to control the movement of the Human with the keys w-a-s-d.
+
+    Parameters
+    ----------
+    key : str
+        Represents the keys the user uses to move the character.
+
+    position_xy_human : tuple
+        Represents the player's position in the dungeon.
+
+    Returns
+    -------
+        New position_xy_human
 
     '''
     if key=="w":
@@ -277,7 +340,7 @@ def gnomo_move_and_attack(player1,gnome,position_xy_human,position_xy_gnomo):
         attack(gnome, player1)
 
 
-def player_move_and_attack(dungeon,player1,gnome,position_xy_human,position_xy_gnomo):
+def player_move_and_attack(dungeon: classname,player1: object,gnome: object,position_xy_human: tuple,position_xy_gnomo: tuple):
     if is_in_dungeon(position_xy_human) and position_xy_human!=position_xy_gnomo:
         if dungeon.is_walkable(position_xy_human) :
             player1=move_to(player1,position_xy_human)
@@ -289,10 +352,28 @@ def player_move_and_attack(dungeon,player1,gnome,position_xy_human,position_xy_g
         attack(player1, gnome)
 
 
-def select_gnome(level,gnomo1,gnomo2,gnomo3):
+def select_gnome(level: int,gnomo1: object,gnomo2: object,gnomo3: object) -> object:
     '''
     Puts all the Gnomes in their corresponding level.
     
+    Parameters
+    ----------
+    level : int
+        Represents the level where the gnomes are placed.
+
+    gnomo1 : object
+        Represents the gnomo Kobold.
+
+    gnomo2 : object
+        Represents the gnomo Knoker.
+
+    gnome3 : object
+        Represents the gnomo Spriggan.
+    
+    Returns
+    -------
+        New gnomo
+
     '''
     if level == 0:
         gnome=gnomo1
@@ -303,10 +384,24 @@ def select_gnome(level,gnomo1,gnomo2,gnomo3):
     return gnome
 
 
-def gnomo_unlocks(dungeon,gnome,player1,amulet,sword):
+def gnomo_unlocks(dungeon: classname,gnome: object,player1: object,amulet: object,sword: object):
     '''
     Changes the Gnome's faces when they change their status to dead.
 
+    Parameters
+    ----------
+    dungeon : class
+        It's where all the information on the map is located. This is updated and saved with each change.
+    
+    player1 : object
+        Represents the player. 
+
+    amulet : object
+        Represents the object amulet.
+
+    sword : object
+        Represents the object sword.
+    
     '''
     if gnomo_is_dead(gnome) and dungeon.level==0:
             gnome.face='%'

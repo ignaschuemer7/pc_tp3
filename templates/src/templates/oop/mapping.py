@@ -29,7 +29,10 @@ class Tile:
         self.face = char
 
     def is_walkable(self) -> bool:
-        """Returns True if the tile is walkable, False otherwise."""
+        """
+        Returns True if the tile is walkable, False otherwise.
+        
+        """
         return self.walkable
 
 
@@ -261,7 +264,7 @@ class Dungeon:
         """
         return self.dungeon[self.level].find_free_tile()
 
-    def is_walkable(self, location: Location)->bool:
+    def is_walkable(self, location: Location) -> bool:
         """
         Check if a player can walk through a given location.
 
@@ -310,12 +313,16 @@ class Dungeon:
 
 
     def are_connected(self,initial: Location, end: Location, check_spaces=[]) -> bool:
-        
-        sys.setrecursionlimit(5000)
         """
         Check if there is walkable path between initial location and end location.
+
+        Returns
+        -------
+        True or False
         
         """
+        sys.setrecursionlimit(5000)
+       
         if initial==end:
             return True 
 

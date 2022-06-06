@@ -6,7 +6,25 @@ numeric = Union[float, int]
 
 class Item:
     def __init__(self, name, xy, fc, type):
-        self.name = name
+        '''
+        Subclass used for items representation.
+
+        Parameters
+        ----------
+        name : str
+            Represents the items's name.
+        
+        xy : tuple
+            Represents the items's position on the map.
+
+        face : str
+            Represents the items's representation on the map.
+
+        type : int
+            Represents the item's type.
+
+        '''
+        self.name = name 
         self.face = fc
         self.type = type
         self.x, self.y = xy

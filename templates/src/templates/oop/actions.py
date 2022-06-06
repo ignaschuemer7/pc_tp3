@@ -37,7 +37,7 @@ def attack(do_damage:object, recive_damage:object):
         Represents who deals damage when player and gnome fight.
 
     recive_damage : object
-        Represents who is the one who takes damage when the player and the gnome fight.
+        Represents who takes damage when the player and the gnome fight.
         
     '''
     generate_damage=do_damage.damage()
@@ -258,16 +258,10 @@ def stairs(dungeon:classname,player1:object):
 
     '''
     if dungeon.loc(player1.loc()).face =='<':
-<<<<<<< HEAD
-        climb_stair(dungeon)
-    elif dungeon.loc(player1.loc()).face =='>':
-        descend_stair(dungeon)
-=======
             climb_stair(dungeon,player1)
             
     elif dungeon.loc(player1.loc()).face =='>':
             descend_stair(dungeon,player1)
->>>>>>> ef90f5eed481dfe33c901da7617869ad99afd7d4
 
 
 def pickup(dungeon:classname,player1: object,pickaxe: object,sword: object,amulet: object):
@@ -439,7 +433,7 @@ def gnomo_unlocks(dungeon: classname,gnome: object,player1: object,amulet: objec
     
     '''
     if gnomo_is_dead(gnome) and dungeon.level==0:
-            gnome.face='%'
+        gnome.face='%'
     if gnomo_is_dead(gnome) and player1.treasure==False and dungeon.level==2:
         gnome.face='%'
         dungeon.add_item(amulet, amulet.loc(),3)

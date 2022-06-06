@@ -23,10 +23,10 @@ def main():
         else:
             break
 def name_player():
-    '''
+    """
     It is responsible for prompting the player to enter a name for their playable character.
     
-    '''
+    """
     while True:
         try:
             name=input("Put your name: ")

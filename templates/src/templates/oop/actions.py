@@ -137,6 +137,9 @@ def move_gnomo(position_xy_gnomo: tuple,position_xy_human: tuple,dungeon,pickaxe
                 and position_xy_gnomo!=pickaxe.loc()
                 and position_xy_gnomo!=amulet.loc()
                 and position_xy_gnomo!=sword.loc()):
+
+                #and dungeon.loc(position_xy_gnomo).face !='<'
+                #and dungeon.loc(position_xy_gnomo).face !='>'):
                 break
             #if it can't move to either side, it will cut the loop
             elif (not dungeon.is_walkable(move_up(position_xy_gnomo)) 

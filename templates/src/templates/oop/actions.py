@@ -1,7 +1,7 @@
 from pydoc import classname
 from tkinter import BooleanVar
 from typing import Tuple, Union
-from human import Human
+from human import Human, barbarian,knight,ninja
 import player
 import random
 import mapping
@@ -440,3 +440,13 @@ def gnomo_unlocks(dungeon: classname,gnome: object,player1: object,amulet: objec
     if gnomo_is_dead(gnome) and player1.weapon==False and dungeon.level==1:
         gnome.face='%'
         dungeon.add_item(sword, sword.loc(),2)
+
+def select_player(name_player1,choose_player,dungeon):
+    if choose_player==1:
+        game_player = barbarian(name_player1, dungeon.find_free_tile())#,'@')
+    elif choose_player==2:
+        game_player = knight(name_player1, dungeon.find_free_tile())#,'𓀝')  
+    else:
+        game_player = ninja(name_player1, dungeon.find_free_tile())#,'🀀')  
+        
+    return game_player

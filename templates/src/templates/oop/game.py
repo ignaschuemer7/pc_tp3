@@ -1,26 +1,29 @@
 from re import X
 import mapping
-from human import Human
+from human import barbarian,knight,ninja
 from gnomo import kobold,knoker,spriggan
 import items
 from actions import *
 import msvcrt
-
+import presentations
 from mapping import Level
+import time
 
 ROWS = 25
 COLUMNS = 80
-def game(name_player1):
+def game(name_player1,choose_player):
     '''
     
     '''
+    presentations.welcome()
+    time.sleep(2)
     #Initial parameters
     turns = 0
     #You need that the pickaxe and the human be conected
     while True:
             dungeon = mapping.Dungeon(ROWS, COLUMNS, 3)
             pickaxe=items.PickAxe("pickacke",dungeon.find_free_tile())
-            player1 = Human(name_player1, dungeon.find_free_tile())
+            player1=select_player(name_player1,choose_player,dungeon)
             if dungeon.are_connected(player1.loc(), pickaxe.loc(),[]):
                 break
     #Gnomos
@@ -33,7 +36,6 @@ def game(name_player1):
     amulet=items.Amulet("amulet",dungeon.find_free_tile())
 
     dungeon.add_item(pickaxe, pickaxe.loc(),1)
-    
 
     while dungeon.level >= 0:
         #Put a gnomo in every dungeon
@@ -70,8 +72,10 @@ def game(name_player1):
         turns += 1
     #Out of the principal loop. The game ends 
     if player1.treasure and player1.alive:
-        print("\nYou Win!!")
+        presentations.good_ending()
+        time.sleep(2)
     else:
-        print("\nYou Lose..Try again!")
+        presentations.bad_ending()
+        time.sleep(2)
 
     

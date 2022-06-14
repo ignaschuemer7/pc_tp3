@@ -1,5 +1,5 @@
+from pydoc import classname
 import random
-from re import S
 from typing import Optional, Tuple, List
 import actions
 
@@ -57,6 +57,16 @@ class Level:
     def __init__(self, rows: int, columns: int):
         '''
         Initializes a dungeon level class.
+
+        Parameters
+        ----------
+        rows : int
+            Represents the number of rows for the level.
+        
+        columns : int
+            Represents the number of columns for the level.
+        
+        """
         
         '''
         tiles = [[1] * 12 + [0] * (columns - 24) + [1] * 12]  #0=air 1=rocks
@@ -79,6 +89,10 @@ class Level:
         """
         Randomly searches for a free location inside the level's map.
         This method might never end.
+        
+        Returns
+        -------
+            A location (tuple)
 
         """
         i, j = random.randint(0, self.rows - 1), random.randint(0, self.columns - 1)
@@ -89,6 +103,10 @@ class Level:
     def get_random_location(self) -> Location:
         """
         Compute and return a random location in the map.
+
+        Returns
+        -------
+            A location (tuple)
         
         """
         return random.randint(0, self.columns - 1), random.randint(0, self.rows - 1)
@@ -131,7 +149,7 @@ class Level:
         items.append(item)
         self.items[(i, j)] = items
 
-    def render(self, player: player.Player,gnomo):
+    def render(self, player: classname, gnomo: classname):
         """
         Draw the map onto the terminal, including player and items. Player must have a loc() method, returning its
         location, and a face attribute. All items in the map must have a face attribute which is going to be shown. If
@@ -156,7 +174,16 @@ class Level:
     def is_walkable(self, location: Location):
         """
         Check if a player can walk through a given location.
+
+        Parameters
+        ----------
+        location : tuple
+            Represents map coordinates.
         
+        Returns
+        -------
+            The existence or not of a tile.   
+
         """
         j, i = location
         return self.tiles[i % self.rows][j % self.columns].is_walkable()
@@ -184,6 +211,15 @@ class Level:
     def loc(self, xy: Location) -> Tile:
         """
         Get the tile type at a give location.
+
+        Parameters
+        ----------
+        xy : tuple
+            Represents a location on the map.
+        
+        Returns
+        -------
+            The tile of the given location.
         
         """
         j, i = xy
@@ -192,6 +228,15 @@ class Level:
     def get_items(self, xy: Location) -> List[items.Item]:
         """
         Get a list of all items at a given location. Removes the items from that location.
+
+        Parameters
+        ----------
+        xy : tuple
+            Represents a location on the map.
+        
+        Returns
+        -------
+            List of all items at a given location
         
         """
         j, i = xy
@@ -205,6 +250,11 @@ class Level:
     def dig(self, xy: Location) -> None:
         """
         Replace a WALL at the given location, by AIR.
+
+        Parameters
+        ----------
+        xy : tuple
+            Represents a location on the map.
         
         """
         j, i = xy
@@ -229,6 +279,17 @@ class Dungeon:
     def __init__(self, rows: int, columns: int, levels: int = 3):
         """
         Initializes a dungeon class.
+
+        Parameters
+        ----------
+        rows : int
+            Represents the number of rows for the level.
+        
+        columns : int
+            Represents the number of columns for the level.
+        
+        levels : int
+            Represents the number of levels (default: 3).
         
         """
         self.dungeon = [Level(rows, columns) for _ in range(levels)]
@@ -268,6 +329,15 @@ class Dungeon:
         """
         Check if a player can walk through a given location.
 
+        Parameters
+        ----------
+        location : tuple
+            Represents a location on the map.
+        
+        Returns
+        -------
+             Whether localization is enabled or not.
+
         """
         return self.dungeon[self.level].is_walkable(location)
 
@@ -285,6 +355,15 @@ class Dungeon:
     def loc(self, xy: Location) -> Tile:
         """
         Get the tile type at a give location.
+
+        Parameters
+        ----------
+        xy : tuple
+            Represents a location on the map.
+
+        Returns
+        -------
+            The tile type at a give location.
         
         """
         return self.dungeon[self.level].loc(xy)
@@ -300,6 +379,15 @@ class Dungeon:
     def get_items(self, xy: Location) -> list[items.Item]:
         """
         Get a list of all items at a given location. Removes the items from that location.
+
+        Parameters
+        ----------
+        xy : tuple
+            Represents a location on the map.
+        
+        Returns
+        -------
+            List of all items at the given location.
        
         """
         return self.dungeon[self.level].get_items(xy)
@@ -307,6 +395,11 @@ class Dungeon:
     def dig(self, xy: Location) -> None:
         """
         Replace a WALL at the given location, by AIR.
+
+        Parameters
+        ----------
+        xy : tuple
+            Represents a location on the map.
         
         """
         return self.dungeon[self.level].dig(xy)
@@ -316,9 +409,20 @@ class Dungeon:
         """
         Check if there is walkable path between initial location and end location.
 
+        Parameters
+        ----------
+        initial : tuple
+            Stores the position where you start.
+        
+        end : tuple
+            Store the position where you want to arrive.
+        
+        check_spaces : list
+            This list stores the parsed spaces.
+
         Returns
         -------
-        True or False
+            True or False
         
         """
         sys.setrecursionlimit(5000)
@@ -335,7 +439,6 @@ class Dungeon:
         
         for position in movements:
             if self.is_walkable(position) and actions.is_in_dungeon(position) and position not in check_spaces:
-                #check_spaces.append(position)
                 result=self.are_connected(position,end,check_spaces)
                 if result:
                     return result

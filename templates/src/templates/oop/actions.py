@@ -1,7 +1,7 @@
 from pydoc import classname
 from tkinter import BooleanVar
 from typing import Tuple, Union
-from human import Human, barbarian,knight,ninja
+from human import Human, Barbarian,Knight,Ninja
 import player
 import random
 import mapping
@@ -46,7 +46,20 @@ def attack(do_damage:object, recive_damage:object):
     
 def move_to(player: player.Player, location: tuple[numeric, numeric]) :
     '''
+    Determines the player's final position. 
+
+    Parameters
+    ----------
+    player : object
+        Represents who deals damage when player and gnome fight.
     
+    location : tuple
+        Represents a location on the map.
+
+    Returns
+    -------
+        Final player's position.
+
     '''
     player.move_to(location)
     return player
@@ -183,7 +196,7 @@ def move_gnomo(position_xy_gnomo: tuple,position_xy_human: tuple,dungeon:classna
                 and dungeon.loc(position_xy_gnomo).face !='<'
                 and dungeon.loc(position_xy_gnomo).face !='>'):
                 break
-            #if it can't move to either side, it will cut the loop
+            #if it can't move to either side, it will serch another place on the map. 
             elif (not dungeon.is_walkable(move_up(position_xy_gnomo)) 
                 and not dungeon.is_walkable(move_down(position_xy_gnomo)) 
                 and not dungeon.is_walkable(move_right(position_xy_gnomo)) 
@@ -195,7 +208,7 @@ def move_gnomo(position_xy_gnomo: tuple,position_xy_human: tuple,dungeon:classna
     return position_xy_gnomo
 
 
-def climb_stair(dungeon:classname,player1):
+def climb_stair(dungeon:classname,player1: object):
     '''
     Produces a change to the previous dungeon when the player climbs the stairs.
     
@@ -203,6 +216,9 @@ def climb_stair(dungeon:classname,player1):
     ----------
     dungeon : class
         It's where all the information on the map is located. This is updated and saved with each change.
+    
+    player1 : object
+        Represents the player. 
 
     '''
     dungeon.level-=1
@@ -218,16 +234,17 @@ def climb_stair(dungeon:classname,player1):
             player1.move_to(space_left)
 
 
-    
-
-def descend_stair(dungeon:classname,player1):
+def descend_stair(dungeon:classname,player1: object):
     '''
-    Produces a change to the next dungeon when the player climbs the stairs.
+    Produces a change to the next dungeon when the player goes down the stairs.
 
     Parameters
     ----------
     dungeon : class
         It's where all the information on the map is located. This is updated and saved with each change.
+    
+    player1 : object
+         Represents the player. 
 
     '''
     dungeon.level+=1
@@ -241,7 +258,6 @@ def descend_stair(dungeon:classname,player1):
     else:
         dungeon.dig(space_right)
         player1.move_to(space_right)
-
 
 
 def stairs(dungeon:classname,player1:object):
@@ -299,7 +315,7 @@ def human_is_dead(player1: object) -> bool:
     Parameters
     ----------
     player1 : object
-         Represents the player.         
+        Represents the player.         
 
     Returns
     -------
@@ -320,7 +336,7 @@ def gnomo_is_dead(gnome: object) -> bool:
     Parameters
     ----------
     gnome : object
-         Represents the npc Gnomo.         
+        Represents the npc Gnomo.         
 
     Returns
     -------
@@ -361,7 +377,25 @@ def player_movements(key: str,position_xy_human: tuple) -> tuple:
     return position_xy_human
 
 
-def gnomo_move_and_attack(player1,gnome,position_xy_human,position_xy_gnomo):
+def gnomo_move_and_attack(player1: object,gnome: object,position_xy_human: tuple,position_xy_gnomo: tuple):
+    '''
+    Determines when the gnome can move and attack the player.
+
+    Parameters
+    ----------
+    player1 : object
+         Represents the player.  
+
+    gnome : object
+        Represents the npc Gnomo. 
+
+    position_xy_human : tuple
+        Represents the player's position in the dungeon.
+
+    position_xy_gnomo : tuple
+        Represents the gnomo's position in the dungeon.
+    
+    '''
     if position_xy_gnomo!=position_xy_human and gnome.alive:
         gnome.move_to(position_xy_gnomo)
     elif gnome.alive:
@@ -370,6 +404,27 @@ def gnomo_move_and_attack(player1,gnome,position_xy_human,position_xy_gnomo):
 
 
 def player_move_and_attack(dungeon: classname,player1: object,gnome: object,position_xy_human: tuple,position_xy_gnomo: tuple):
+    '''
+    Determines when the player can move and attack the gnome.
+
+    Parameters
+    ----------
+    dungeon : class
+        It's where all the information on the map is located. This is updated and saved with each change.
+
+    player1 : object
+         Represents the player.  
+
+    gnome : object
+        Represents the npc Gnomo. 
+
+    position_xy_human : tuple
+        Represents the player's position in the dungeon.
+
+    position_xy_gnomo : tuple
+        Represents the gnomo's position in the dungeon.
+
+    '''
     if is_in_dungeon(position_xy_human) and position_xy_human!=position_xy_gnomo:
         if dungeon.is_walkable(position_xy_human) :
             player1=move_to(player1,position_xy_human)
@@ -442,11 +497,27 @@ def gnomo_unlocks(dungeon: classname,gnome: object,player1: object,amulet: objec
         dungeon.add_item(sword, sword.loc(),2)
 
 def select_player(name_player1,choose_player,dungeon):
+    '''
+    Select one of the three game's characters.
+
+    Parameters
+    ----------
+    name_player1 : str
+        Stores the name the player wants to have throughout the game.
+    
+    choose_player : int
+        Stores the character chosen by the user.
+    
+    Returns
+    -------
+        The user's chosen character (object).
+    
+    '''
     if choose_player==1:
-        game_player = barbarian(name_player1, dungeon.find_free_tile())#,'@')
+        game_player = Barbarian(name_player1, dungeon.find_free_tile())
     elif choose_player==2:
-        game_player = knight(name_player1, dungeon.find_free_tile())#,'𓀝')  
+        game_player = Knight(name_player1, dungeon.find_free_tile())  
     else:
-        game_player = ninja(name_player1, dungeon.find_free_tile())#,'🀀')  
+        game_player = Ninja(name_player1, dungeon.find_free_tile()) 
         
     return game_player

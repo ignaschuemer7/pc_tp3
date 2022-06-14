@@ -33,7 +33,8 @@ class Gnomo(Player):
             Gnomo interface (str).
         '''
         return f"Enemy: {self.name} |HP: {self.hp}"
-class kobold(Gnomo):
+
+class Kobold(Gnomo):
     def __init__(self, name, xy , face='G', hit_points=50):
         super().__init__(name, xy, face ,hit_points=hit_points)
     
@@ -47,7 +48,7 @@ class kobold(Gnomo):
         '''
         return random.randint(1,2) * 10 + 1
 
-class knoker(Gnomo):
+class Knoker(Gnomo):
     def __init__(self, name, xy , face='Ĝ', hit_points=100):
         super().__init__(name, xy, face ,hit_points=hit_points)
    
@@ -61,7 +62,7 @@ class knoker(Gnomo):
         '''
         return random.randint(1,2) * 15 + 1
 
-class spriggan(Gnomo):
+class Spriggan(Gnomo):
     def __init__(self, name, xy , face='ğ', hit_points=150):
         super().__init__(name, xy, face ,hit_points=hit_points)
     

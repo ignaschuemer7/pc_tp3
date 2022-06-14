@@ -1,22 +1,28 @@
-from re import X
 import mapping
-from human import barbarian,knight,ninja
-from gnomo import kobold,knoker,spriggan
+from gnomo import Kobold,Knoker,Spriggan
 import items
 from actions import *
 import msvcrt
 import presentations
-from mapping import Level
 import time
 
 ROWS = 25
 COLUMNS = 80
-def game(name_player1,choose_player):
+def game(name_player1: str,choose_player: int):
     '''
+    This function is responsible for generating the entire game by invoking the different functions stored in the files.
+
+    Parameters
+    ----------
+    name_player1 : str
+        Stores the name the player wants to have throughout the game.
     
+    choose_player : int
+        Stores the character chosen by the user.
+
     '''
     presentations.welcome()
-    time.sleep(2)
+    time.sleep(1)
     #Initial parameters
     turns = 0
     #You need that the pickaxe and the human be conected
@@ -26,15 +32,15 @@ def game(name_player1,choose_player):
             player1=select_player(name_player1,choose_player,dungeon)
             if dungeon.are_connected(player1.loc(), pickaxe.loc(),[]):
                 break
+   
     #Gnomos
-    gnomo1 = kobold('Kobold', dungeon.find_free_tile())
-    gnomo2 = knoker('Knoker', dungeon.find_free_tile())
-    gnomo3 = spriggan('Spriggan', dungeon.find_free_tile())
+    gnomo1 = Kobold('Kobold', dungeon.find_free_tile())
+    gnomo2 = Knoker('Knoker', dungeon.find_free_tile())
+    gnomo3 = Spriggan('Spriggan', dungeon.find_free_tile())
+   
     #Items
-    
     sword=items.Sword("sword",dungeon.find_free_tile())
     amulet=items.Amulet("amulet",dungeon.find_free_tile())
-
     dungeon.add_item(pickaxe, pickaxe.loc(),1)
 
     while dungeon.level >= 0:
@@ -73,9 +79,9 @@ def game(name_player1,choose_player):
     #Out of the principal loop. The game ends 
     if player1.treasure and player1.alive:
         presentations.good_ending()
-        time.sleep(2)
+        time.sleep(1)
     else:
         presentations.bad_ending()
-        time.sleep(2)
+        time.sleep(1)
 
     

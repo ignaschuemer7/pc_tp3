@@ -7,7 +7,7 @@ numeric = Union[float, int]
 class Item:
     def __init__(self, name, xy, fc, type):
         '''
-        Subclass used for items representation.
+        Class used for items representation.
 
         Parameters
         ----------
@@ -30,16 +30,32 @@ class Item:
         self.x, self.y = xy
 
     def __str__(self):
+        '''
+        Represents the class objects as a string.
+
+        '''
         return self.name
 
     def __repr__(self):
+        '''
+        Represent a class's objects as a string.
+        
+        '''
         return f"Item('{self.name}', '{self.face}')"
 
     def loc(self):
+        '''
+        Return item's location
+
+        '''
         return self.x, self.y
 
 
 class Sword(Item):
+    '''
+    Item subclass used for the item "Sword" representation.
+
+    '''
     def __init__(self, name: str, xy, fc: str='/', min_dmg: numeric=10, max_dmg: numeric=20):
         super().__init__(name, xy, fc,'weapon')
         self.min_dmg = min_dmg
@@ -47,10 +63,18 @@ class Sword(Item):
 
 
 class Amulet(Item):
+    '''
+    Item subclass used for the item "Amulet" representation.
+
+    '''
     def __init__(self, name: str,xy, fc='"'):
         super().__init__(name, xy, fc,'treasure')
 
 
 class PickAxe(Item):
+    '''
+    Item subclass used for the item "PickAxe" representation.
+
+    '''
     def __init__(self, name: str,xy,fc="("):
         super().__init__(name,xy,fc,'tool')

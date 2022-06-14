@@ -6,7 +6,7 @@ class Human(Player):
     def __init__(self, name, xy,face,hit_points):
         super().__init__(name, xy, face ,hit_points)
         '''
-        Subclass used for player representation.
+        Player subclass used for player representation.
 
         Parameters
         ----------
@@ -33,7 +33,7 @@ class Human(Player):
 
         Returns
         -------
-            New player´s damage
+            New player´s damage (int)
 
         '''
         if self.weapon:
@@ -53,33 +53,69 @@ class Human(Player):
 
         Returns
         -------
-            Player interface
+            Player interface (str)
 
         '''
         return f"|Player: {self.name} |HP: {self.hp} |PickAxe: {self.tool} |Sword: {self.weapon} |Treasure: {self.treasure}"
 
-class barbarian(Human):
-    def __init__(self, name, xy,face='@',hit_points=350):
+class Barbarian(Human):
+    '''
+    Human subclass used for the character "Barbarian".
+
+    '''
+    def __init__(self, name, xy,face='@',hit_points=370):
         super().__init__(name, xy, face ,hit_points=hit_points)
 
     def damage(self):
+        '''
+        Determines the damage the player deals (with and without the sword).       
+
+        Returns
+        -------
+            New player´s damage (int)
+
+        '''
         if self.weapon:
             return random.randint(1,2) * 20 + 5
         return random.randint(1,2) * 10 + 1
 
-class knight(Human):
-    def __init__(self, name, xy,face='𓀝',hit_points=300):
+class Knight(Human):
+    '''
+    Human subclass used for the character "Knight".
+
+    '''
+    def __init__(self, name, xy,face='𓀝',hit_points=320):
         super().__init__(name, xy, face ,hit_points=hit_points)
 
     def damage(self):
-            if self.weapon:
-                return random.randint(1,2) * 25 + 6
-            return random.randint(1,2) * 23 + 2
-class ninja(Human):
-    def __init__(self, name, xy,face='🀀',hit_points=250):
+        '''
+        Determines the damage the player deals (with and without the sword).       
+
+        Returns
+        -------
+            New player´s damage (int)
+
+        '''
+        if self.weapon:
+            return random.randint(1,2) * 25 + 6
+        return random.randint(1,2) * 23 + 2
+class Ninja(Human):
+    '''
+    Human subclass used for the character "Ninja".
+
+    '''
+    def __init__(self, name, xy,face='🀀',hit_points=270):
         super().__init__(name, xy, face ,hit_points=hit_points)
 
     def damage(self):
-            if self.weapon:
-                return random.randint(1,2) * 30 + 7
-            return random.randint(1,2) * 20 + 3
+        '''
+        Determines the damage the player deals (with and without the sword).       
+
+        Returns
+        -------
+            New player´s damage (int)
+
+        '''
+        if self.weapon:
+            return random.randint(1,2) * 30 + 7
+        return random.randint(1,2) * 20 + 3
